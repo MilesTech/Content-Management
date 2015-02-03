@@ -50,7 +50,7 @@ app.use(methodOverride());
         // create a todo, information comes from AJAX request from Angular
         Todo.create({
             text : req.body.text,
-            done : false 
+            done : false
         }, function(err, todo) {
             if (err)
                 res.send(err);
@@ -84,6 +84,10 @@ app.use(methodOverride());
 
 
 
+
+  app.get('*', function(req, res) {
+        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    });
 
 
 
