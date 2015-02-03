@@ -13,7 +13,7 @@ var done=false;
 
 
 /*=================Config=============*/
- mongoose.connect('mongodb://root:Raqob4anoj@proximus.modulusmongo.net:27017/bovutY7x'); 
+
 app.use(express.static(__dirname + '/public'));  
 app.use(morgan('dev')); 
 app.use(bodyParser.urlencoded({'extended':'true'})); 
@@ -50,7 +50,7 @@ app.use(methodOverride());
         // create a todo, information comes from AJAX request from Angular
         Todo.create({
             text : req.body.text,
-            done : false
+            done : false 
         }, function(err, todo) {
             if (err)
                 res.send(err);
