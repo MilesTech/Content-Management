@@ -1,0 +1,53 @@
+  
+  @import url(https://fonts.googleapis.com/css?family=Roboto:400,700,900,300,400italic);
+  
+  body{margin:0; padding:0; font-size:100%; font-family: 'Roboto', sans-serif;}
+  
+  .loader{position:absolute; top:0; left:0; width:100%; height:100%; background: #004AA1; display:table; box-shadow:3px 3px 3px #666;}
+  .loader h1{color:#fff;  display:table-cell;  vertical-align: middle; 
+  text-align: center; }
+  .loader h1 span{font-size:.6em;}
+  
+  
+  .header{background: #004AA1; padding:10px; box-shadow:4px 4px 4px #666;}
+  .header a{color:#fff; font-weight:900; text-decoration:none;} 
+  span em{color:#666;}
+  
+  .wrapper{width:1100px; margin:auto;}
+  .fifty{width:46%; float:left;  margin:30px 1% 0 1%;}
+  
+  .list{margin:20px 0 0 0; padding:0}
+  .list li{list-style:none; margin:5px 0;}
+  .list li span{cursor:pointer; }
+  .list  ul{display:none; z-index:100;}
+  .list  ul span{font-style:italic;}
+  .save{display:block; color:#fff; text-align:center; padding:10px; text-decoration:none; background:#004AA1; transition:all ease-in .2s;}
+  .save:hover{background:#76AC23;}
+   textarea{width:100%;}
+  span.done{text-decoration:line-through; color:#666;}
+  a.delete{color:red; text-decoration:none;  font-weight:900;}
+  .date{font-size:.8em; font-style:italic}
+  .profile-picture{border-radius:100%; vertical-align:middle; height:40px;}
+  .message{padding:10px; border:solid #ccc 1px;}
+  
+  
+  
+  
+#holder { border: 10px dashed #ccc; width: 100%; min-height: 300px; margin: 20px auto; box-sizing:border-box; background:url(/Images/upload.png) no-repeat center center;}
+#holder.hover { border: 10px dashed #0c0; }
+#holder p { margin: 10px; font-size: 14px; }
+
+.tmb{max-width:30px; max-height:60px;}
+.error{font-size:.8em; color:red;}
+
+.downloaded > span{color:#76AC23;}
+h1{font-weight:300;}
+h2.docs-heading{background:#004aa1; padding:10px; color:#fff;}
+h2.imgs-heading{background:#3c8ed7; padding:10px; color:#fff;}
+.status{background:#ccc; padding:10px;}
+
+#download-all{display:block; text-align:center; padding:10px; background:#FF9E01; color:#fff;  border:none; margin-top:40px; font-size:1.3em; font-weight:300; font-family: 'Roboto', sans-serif; cursor:pointer; transition:ease .3s all; float:right;}
+#download-all:hover{background:#76AC23;}
+/*==============UTILS================*/
+.right{float:right;} .left{float:left;} .clear-fix{clear:both;}
+
