@@ -4,6 +4,12 @@
   "dependencies": {
     "express": "~4.10.2",
     "multer": "~0.1.6",
-	  "googleapis": "*"
+    "passport-google": "^0.3.0",
+    "passport": "^0.2.1",
+    "jade": "^1.9.1",
+    "mongoose": "^3.8.22",
+    "morgan": "^1.5.1",
+    "body-parser": "^1.11.0",
+    "method-override": "^2.3.1"
   }
 }
