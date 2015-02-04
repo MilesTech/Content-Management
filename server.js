@@ -8,12 +8,14 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');    
 var bodyParser = require('body-parser'); 
 var methodOverride = require('method-override'); 
+var secrets = require('./secrets.js'); 
+
   
 var done=false;
 
 
 /*=================Config=============*/
-
+mongoose.connect(secrets.mongoosedatabase());
 app.use(express.static(__dirname + '/public'));  
 app.use(morgan('dev')); 
 app.use(bodyParser.urlencoded({'extended':'true'})); 
@@ -22,40 +24,38 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
 
-
+	var ObjectId = mongoose.Schema.ObjectId;
   var Todo = mongoose.model('Todo', {
-        text : String
+        text : String,
+		notes: String,
+		due: Date,
+		assigned: ObjectId,
+		day: String
     });
 
 
 
-//Routes
 
  app.get('/api/todos', function(req, res) {
-
-        // use mongoose to get all todos in the database
+	 
         Todo.find(function(err, todos) {
-
-            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err)
+            if (err){
                 res.send(err)
-
-            res.json(todos); // return all todos in JSON format
+			}
+            res.json(todos);
         });
+		
     });
 
-    // create todo and send back all todos after creation
-    app.post('/api/todos', function(req, res) {
 
-        // create a todo, information comes from AJAX request from Angular
+    app.post('/api/todos', function(req, res) {
         Todo.create({
             text : req.body.text,
+			notes : req.body.notes,
             done : false
         }, function(err, todo) {
             if (err)
                 res.send(err);
-
-            // get and return all the todos after you create another
             Todo.find(function(err, todos) {
                 if (err)
                     res.send(err)
@@ -85,11 +85,11 @@ app.use(methodOverride());
 
 
 
-  app.get('*', function(req, res) {
-        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+
+
+ app.get('*', function(req, res) {
+        res.sendfile('./public/index.html'); 
     });
-
-
 
 
 

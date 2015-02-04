@@ -1,8 +1,8 @@
 var scotchTodo = angular.module('scotchTodo', []);
 
 function mainController($scope, $http) {
+	
     $scope.formData = {};
-
     // when landing on the page, get all todos and show them
     $http.get('/api/todos')
         .success(function(data) {
@@ -15,6 +15,7 @@ function mainController($scope, $http) {
 
     // when submitting the add form, send the text to the node API
     $scope.createTodo = function() {
+		console.log($scope.formData);
         $http.post('/api/todos', $scope.formData)
             .success(function(data) {
                 $scope.formData = {}; // clear the form so our user is ready to enter another
