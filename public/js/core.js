@@ -1,4 +1,4 @@
-var scotchTodo = angular.module('scotchTodo', []);
+var milesCommandCenter = angular.module('milesCommandCenter', []);
 
 function mainController($scope, $http) {
 	
