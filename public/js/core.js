@@ -1,42 +1,88 @@
-var milesCommandCenter = angular.module('milesCommandCenter', []);
-
-function mainController($scope, $http) {
+var milesCommandCenter = angular.module('milesCommandCenter', [
+'milesCommandCenter.controllers',
+'milesCommandCenter.services',
+'ngRoute'
+])
+.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	
-    $scope.formData = {};
-    // when landing on the page, get all todos and show them
-    $http.get('/api/todos')
-        .success(function(data) {
-            $scope.todos = data;
-            console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
+	var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
+      // Initialize a new promise
+      var deferred = $q.defer();
 
-    // when submitting the add form, send the text to the node API
-    $scope.createTodo = function() {
-		console.log($scope.formData);
-        $http.post('/api/todos', $scope.formData)
-            .success(function(data) {
-                $scope.formData = {}; // clear the form so our user is ready to enter another
-                $scope.todos = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
+      // Make an AJAX call to check if the user is logged in
+      $http.get('/loggedin').success(function(user){
+        // Authenticated
+        if (user !== '0')
+          /*$timeout(deferred.resolve, 0);*/
+          deferred.resolve();
+
+        // Not Authenticated
+        else {
+          $rootScope.message = 'You need to log in.';
+          //$timeout(function(){deferred.reject();}, 0);
+          deferred.reject();
+          $location.url('/login');
+        }
+      });
+
+      return deferred.promise;
     };
+	
+	
+	 //================================================
+    // Add an interceptor for AJAX errors
+    //================================================
+    $httpProvider.interceptors.push(function($q, $location) {
+      return {
+        response: function(response) {
+          // do something on success
+          return response;
+        },
+        responseError: function(response) {
+          if (response.status === 401)
+            $location.url('/login');
+          return $q.reject(response);
+        }
+      };
+    });
+    //================================================
 
-    // delete a todo after checking it
-    $scope.deleteTodo = function(id) {
-        $http.delete('/api/todos/' + id)
-            .success(function(data) {
-                $scope.todos = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
+    //================================================
+    // Define all the routes
+    //================================================
+	
+
+  $routeProvider
+	.when("/", {
+	  templateUrl: "views/home.html", 
+	  controller: "mainController"
+	  })
+	.when("/register", {
+	  templateUrl: "views/register.html", 
+	  controller: "registerController"
+	  })
+	.when("/login", {
+	  templateUrl: "views/login.html", 
+	  controller: "loginController"
+	  })
+	.when("/dashboard", {
+	  templateUrl: "views/home.html", 
+	  controller: "mainController",
+	  resolve: {
+          loggedin: checkLoggedin
+        }
+	  })
+	  
+	  $locationProvider.html5Mode(true);
+	  
+}])
+
+  .run(function($rootScope, $http){
+    $rootScope.message = '';
+
+    // Logout function is available in any pages
+    $rootScope.logout = function(){
+      $rootScope.message = 'Logged out.';
+      $http.post('/logout');
     };
-
-}
+  });
