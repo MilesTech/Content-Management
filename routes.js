@@ -1,4 +1,5 @@
 var Todo = require('./models/todos.js');
+var User = require('./models/user.js');
 
 module.exports = function(app, passport) {
 
@@ -10,22 +11,40 @@ app.get('/loggedin', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : '0');
 });
 
-// route to log in
-app.post('/login', passport.authenticate('local'), function(req, res) {
-  res.send(req.user);
-});
+
 
 // route to log out
-app.post('/logout', function(req, res){
-  req.logOut();
-  res.send(200);
-});
+app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.send(200);
+}
+
+
 //==================================================================
 
 
 
+   app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/dashboard', // redirect to the secure profile section
+        failureRedirect : '/register'
+    }));
 
 
+app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/dashboard', // redirect to the secure profile section
+        failureRedirect : '/login'
+    }));
 
 
 
@@ -43,6 +62,17 @@ app.post('/logout', function(req, res){
 		
     });
 
+ app.get('/api/users', function(req, res) {
+	 
+        User.find(function(err, users) {
+            if (err){
+                res.send(err)
+			}
+            res.json(users);
+        });
+		
+    });
+	
 
     app.post('/api/todos', function(req, res) {
         Todo.create({

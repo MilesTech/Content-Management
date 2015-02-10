@@ -1,6 +1,7 @@
 var milesCommandCenter = angular.module('milesCommandCenter', [
 'milesCommandCenter.controllers',
 'milesCommandCenter.services',
+'milesCommandCenter.directives',
 'ngRoute'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
@@ -66,8 +67,8 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 	  controller: "loginController"
 	  })
 	.when("/dashboard", {
-	  templateUrl: "views/home.html", 
-	  controller: "mainController",
+	  templateUrl: "views/dashboard.html", 
+	  controller: "dashboardController",
 	  resolve: {
           loggedin: checkLoggedin
         }

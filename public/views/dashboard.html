@@ -1,0 +1,59 @@
+
+<div class="container">
+
+        <!-- HEADER AND TODO COUNT -->
+        <div class="row">
+        <div class="large-12 columns">
+            <center><h1>Miles Command Center <span class="label label-info">{{ todos.length }}</span></h1></center>
+        </div>
+        </div>
+
+        <!-- TODO LIST -->
+        <div id="todo-list" class="row">
+        
+        <div class="large-10 columns">
+            <div class="row">
+            	<div class="users large-3 columns" ng-repeat="user in users">
+                 
+                        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                        <div class="todo-queue" dropTarget>
+                        <ul>
+                        	<li ng-repeat="todo in todos | filter:{assigned: user._id}">{{ todo.text }}</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+             </div>       
+        </div>
+        
+            <div class="large-2 columns">
+
+                <!-- LOOP OVER THE TODOS IN $scope.todos -->
+                <div class="checkbox" ng-repeat="todo in todos" ng-if="!todo.assigned" miles-dragable >
+                    <label>
+                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
+                    </label>
+                    <p>{{ todo.notes }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FORM TO CREATE TODOS -->
+        <div id="todo-form" class="row">
+            <div class="large-8 columns text-center">
+                <form>
+                    <div class="form-group">
+
+                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
+                        <textarea ng-model="formData.notes"></textarea>
+                    </div>
+
+                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+                </form>
+            </div>
+        </div>
+
+    </div>

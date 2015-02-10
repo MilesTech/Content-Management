@@ -8,7 +8,16 @@ angular.module('milesCommandCenter.services', []).
 		 method: 'Get', 
         url: '/api/todos'
       });
-    }
+	  };
+	  
+	   milesAPI.getUsers = function() {
+      return $http({
+		 method: 'Get', 
+        url: '/api/users'
+      });
+	};
+	
+  
 
     return milesAPI;
   });
