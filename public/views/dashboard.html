@@ -1,22 +1,37 @@
 
 <div class="container">
+    <div class="right-sidebar">
+    	<div class="row">
+    		<div class="large-12 columns">
+              <div class="checkbox todo" ng-repeat="todo in todos" ng-if="!todo.assigned"  drag id="{{todo._id}}">
+               
+                    <label>
+                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
+                    </label>
+                    <p>{{ todo.notes }}</p>
+                </div>
+            </div>
+    	</div>
+    
+    </div>
 
-        <!-- HEADER AND TODO COUNT -->
+<div class="main-dashboard">
+
         <div class="row">
         <div class="large-12 columns">
             <center><h1>Miles Command Center <span class="label label-info">{{ todos.length }}</span></h1></center>
         </div>
         </div>
 
-        <!-- TODO LIST -->
+
         <div id="todo-list" class="row">
         
-        <div class="large-10 columns">
+        <div class="large-12 columns">
             <div class="row">
-            	<div class="users large-3 columns" ng-repeat="user in users">
+            	<div class="users large-4 columns" ng-repeat="user in users">
                  
                         <h3>{{ user.firstname }} {{ user.lastname }}</h3>
-                        <div class="todo-queue" dropTarget>
+                        <div class="todo-queue" id="{{user._id}}" drop-target>
                         <ul>
                         	<li ng-repeat="todo in todos | filter:{assigned: user._id}">{{ todo.text }}</li>
                             </ul>
@@ -26,34 +41,56 @@
              </div>       
         </div>
         
-            <div class="large-2 columns">
-
-                <!-- LOOP OVER THE TODOS IN $scope.todos -->
-                <div class="checkbox" ng-repeat="todo in todos" ng-if="!todo.assigned" miles-dragable >
-                    <label>
-                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-                    </label>
-                    <p>{{ todo.notes }}</p>
-                </div>
-
-            </div>
+              
+           
         </div>
 
         <!-- FORM TO CREATE TODOS -->
         <div id="todo-form" class="row">
-            <div class="large-8 columns text-center">
-                <form>
-                    <div class="form-group">
-
-                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                        <input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
-                        <textarea ng-model="formData.notes"></textarea>
-                    </div>
-
+          
+                <form class="large-12 columns">
+         
+	<div class="row">
+    <div class="large-8 columns">
+        <div class="form-section">
+        <label> Task Name
+                            <input type="text" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text" class="task-input">
+          </label>          
+              </div>  
+              
+               <div class="form-section">
+                   <select class="task-input">
+                       <option selected value="0">Select A Type</option>
+                       <option>Mockup</option>
+                       <option>QA</option>
+                       <option>Development</option>
+                       <option>Maintenance</option>
+                       <option>Content Implementation</option>
+                   </select>
+               </div>            
+                        
+         <div class="form-section">    
+         <label> Notes           
+                <textarea ng-model="formData.notes" class="task-input"></textarea>
+            </label>            
+          </div>  
+          
+          <div class="form-section">   
+             <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>           </div>
+              
+</div>
+<div class="large-4 columns">
                     <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+                 
+                    </div>
+                    
+                    
+                    </div>
                 </form>
+                
+                
             </div>
-        </div>
+   
 
     </div>
+</div>

@@ -91,6 +91,21 @@ app.post('/login', passport.authenticate('local-login', {
 
     });
 
+
+    app.post('/api/todos/:todo_id', function(req, res) {
+		       
+	   Todo.update({_id: req.params.todo_id},  req.body, function(err){   
+	  		Todo.find(function(err, todos) {
+                if (err)
+                    res.send(err)
+                res.json(todos);
+            });
+	   })
+	
+    });
+
+
+
     // delete a todo
     app.delete('/api/todos/:todo_id', function(req, res) {
         Todo.remove({

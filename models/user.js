@@ -22,5 +22,11 @@ User.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+User.methods.toJSON = function(){
+	var obj = this.toObject();
+	delete obj.password;
+	return obj
+}
+
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', User);

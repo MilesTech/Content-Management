@@ -1,9 +1,29 @@
+@import url(http://fonts.googleapis.com/css?family=Oxygen:400,700,300);
 
-
+body{margin:0; padding:0; font-family: 'Oxygen', sans-serif;}
 
 /*======================
 Dashboard
 =======================*/
-.todo-queue{border:#ccc 1px solid;}
+.todo-queue{border:#ccc 1px solid; padding:10px;}
 .todo-queue ul{margin:0; padding:0}
-.todo-queue ul li{list-style:none; margin:5px 0; padding:0;}
+.todo-queue ul li{list-style:none; margin:5px 0; padding:0; border-bottom:1px solid #ccc; padding:5px 0;}
+
+.right-sidebar {
+background: #0A1C29;
+position: fixed;
+height: 100%;
+width: 300px;
+z-index: 1000;
+right:0;
+}
+
+.right-sidebar .todo{color:#fff; margin:10px 0;}
+
+.main-dashboard{width:100%; padding-right: 300px;}
+
+.task-input{width:100%; padding:5px; font-size:1.2em;}
+
+.form-section{margin:20px 0;}
+
+form button{background: #0A1C29; padding:10px 30px; color:#fff; border:none; cursor:pointer}

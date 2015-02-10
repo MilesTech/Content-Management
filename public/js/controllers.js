@@ -19,44 +19,41 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice) {
 
      $scope.formData = {};
-	  $scope.dropped = [];
+	 
     // when landing on the page, get all todos and show them
 	
-	$scope.moveToBox = function(id) {
- 
-        for (var index = 0; index < $scope.items.length; index++) {
- 
-            var item = $scope.items[index];
-                 
-            if (item.id == id) {
-                // add to dropped array
-                $scope.dropped.push(item);
- 
-                // remove from items array
-                $scope.items.splice(index, 1);
-            }
-        }
- 
-        $scope.$apply();
-    };
- 
-	  $scope.showItmesLeft = function () {
-        alert($scope.items.length + " items left.");
-    };
-     
-    $scope.showItmesDropped = function () {
-        alert($scope.dropped.length + " items in drop-box.");
-    };
-	
-	
-	 milesAPIservice.getTodos().success(function (res) {
-	 $scope.todos = res;
+	milesAPIservice.getTodos().success(function (res) {
+	 	$scope.todos = res;
 	 });
 	 
 	 
 	 milesAPIservice.getUsers().success(function (res) {
-	 $scope.users = res;
+	 	$scope.users = res;
 	 });
+	
+	$scope.moveToBox = function(todoid, userid) {
+        for (var index = 0; index < $scope.todos.length; index++) {
+ 
+            var item = $scope.todos[index];
+            if (item._id == todoid) {
+				$scope.updateTodo(item, userid);	
+            }
+        }
+
+    };
+ 
+
+	$scope.updateTodo = function(todo, userid){
+		
+		$http.post('/api/todos/' + todo._id, {assigned: userid})
+            .success(function(data) {
+                 $scope.todos = data;
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+	};
+	
 
     $scope.createTodo = function() {
 		
