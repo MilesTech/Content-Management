@@ -2,7 +2,7 @@
 <div class="container">
     <div class="right-sidebar">
     	<div class="row">
-    		<div class="large-12 columns">
+    		<div class="large-12 columns" drop-target>
               <div class="checkbox todo" ng-repeat="todo in todos" ng-if="!todo.assigned"  drag id="{{todo._id}}">
                
                     <label>
@@ -33,7 +33,7 @@
                         <h3>{{ user.firstname }} {{ user.lastname }}</h3>
                         <div class="todo-queue" id="{{user._id}}" drop-target>
                         <ul>
-                        	<li ng-repeat="todo in todos | filter:{assigned: user._id}">{{ todo.text }}</li>
+                        	<li ng-repeat="todo in todos | filter:{assigned: user._id}" drag id="{{todo._id}}">{{ todo.text }}</li>
                             </ul>
                         </div>
                         
@@ -59,13 +59,13 @@
               </div>  
               
                <div class="form-section">
-                   <select class="task-input">
+                   <select class="task-input" ng-model="formData.type">
                        <option selected value="0">Select A Type</option>
-                       <option>Mockup</option>
-                       <option>QA</option>
-                       <option>Development</option>
-                       <option>Maintenance</option>
-                       <option>Content Implementation</option>
+                       <option value="mockup">Mockup</option>
+                       <option value="qa">QA</option>
+                       <option value="development">Development</option>
+                       <option value="maintenance">Maintenance</option>
+                       <option value="content">Content Implementation</option>
                    </select>
                </div>            
                         

@@ -24,7 +24,7 @@ return {
          
             element.bind("dragover", function(eventObject){
                 eventObject.preventDefault();
-				console.log(attributes);
+				
             });
  
             element.bind("drop", function(eventObject) {

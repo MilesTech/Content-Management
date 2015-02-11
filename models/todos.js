@@ -6,7 +6,9 @@ var ObjectId = mongoose.Schema.ObjectId;
 		notes: String,
 		due: Date,
 		assigned: String,
-		day: String
+		day: String,
+		type: String,
+		hours: Number
     });
 	
 	

@@ -73,11 +73,24 @@ app.post('/login', passport.authenticate('local-login', {
 		
     });
 	
+	
+	app.get('/api/users/:user_id', function(req, res) {
+	 
+       User.findById(req.params.user_id)
+	   .populate('tasks')
+	   .exec(function(err, doc){
+		   console.log(doc);
+	   });
+		
+    });
+	
 
     app.post('/api/todos', function(req, res) {
         Todo.create({
             text : req.body.text,
 			notes : req.body.notes,
+			type : req.body.type,
+			hours : req.body.hours,
             done : false
         }, function(err, todo) {
             if (err)
