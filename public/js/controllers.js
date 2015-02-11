@@ -45,6 +45,19 @@ angular.module('milesCommandCenter.controllers', [])
 
 	$scope.updateTodo = function(todo, userid){
 		
+		if(!userid){
+			userid="";	
+		} else {
+			
+			$http.post('/api/users/' + userid, {task: todo._id})
+            .success(function(data) {
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+			
+		}
+		
 		$http.post('/api/todos/' + todo._id, {assigned: userid})
             .success(function(data) {
                  $scope.todos = data;
@@ -52,10 +65,32 @@ angular.module('milesCommandCenter.controllers', [])
             .error(function(data) {
                 console.log('Error: ' + data);
             });
+			
+			
+			
 	};
 	
 
     $scope.createTodo = function() {
+		
+		switch($scope.formData.type) {
+    case "mockup":
+        $scope.formData.hours = 8;
+        break;
+    case "qa":
+        $scope.formData.hours = 3;
+        break;
+	case "development":
+        $scope.formData.hours = 12;
+        break;
+	case "maintenance":
+        $scope.formData.hours = 2;
+        break;
+	case "content":
+        $scope.formData.hours = 16;
+        break;			
+}
+		
 		
         $http.post('/api/todos', $scope.formData)
             .success(function(data) {
