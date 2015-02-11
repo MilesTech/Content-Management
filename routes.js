@@ -1,6 +1,6 @@
 var Todo = require('./models/todos.js');
 var User = require('./models/user.js');
-
+var mongoose = require('mongoose');
 module.exports = function(app, passport) {
 
 
@@ -27,7 +27,7 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.send(200);
+    res.send("Unauthorized");
 }
 
 
@@ -62,7 +62,7 @@ app.post('/login', passport.authenticate('local-login', {
 		
     });
 
- app.get('/api/users', function(req, res) {
+ app.get('/api/users', isLoggedIn, function(req, res) {
 	 
         User.find(function(err, users) {
             if (err){
@@ -79,10 +79,12 @@ app.post('/login', passport.authenticate('local-login', {
        User.findById(req.params.user_id)
 	   .populate('tasks')
 	   .exec(function(err, doc){
-		   console.log(doc);
+		  res.json(doc);
 	   });
 		
     });
+	
+
 	
 
     app.post('/api/todos', function(req, res) {
@@ -106,15 +108,40 @@ app.post('/login', passport.authenticate('local-login', {
 
 
     app.post('/api/todos/:todo_id', function(req, res) {
-		       
-	   Todo.update({_id: req.params.todo_id},  req.body, function(err){   
+		var user       
+		
+			Todo.findOne({_id: req.params.todo_id}, function(err, todo){
+				if(req.body.oldAssigned && !req.body.newAssigned){
+					user = req.body.oldAssigned;
+					todo.update({assigned: ""},function(err){});
+					User.findByIdAndUpdate(user, {$pull: {tasks: mongoose.Types.ObjectId(req.params.todo_id)}}, function(err){done();});
+					
+				} else if(req.body.newAssigned && req.body.oldAssigned){
+					user = req.body.newAssigned;
+					todo.update({assigned: req.body.newAssigned},function(err){});
+					User.findByIdAndUpdate(req.body.oldAssigned, {$pull: {tasks: mongoose.Types.ObjectId(req.params.todo_id)}}, function(err){
+						User.findByIdAndUpdate(req.body.newAssigned, {$push: {tasks: mongoose.Types.ObjectId(req.params.todo_id)}}, function(err){done();});
+
+						});
+				
+				} else {
+					user = req.body.newAssigned;
+					todo.update({assigned: req.body.newAssigned},function(err){});
+					User.findByIdAndUpdate(user, {$push: {tasks: mongoose.Types.ObjectId(req.params.todo_id)}}, function(err){done();});
+					
+				}
+			})
+			
+
+	   function done(){
 	  		Todo.find(function(err, todos) {
                 if (err)
                     res.send(err)
                 res.json(todos);
             });
-	   })
-	
+	 
+	   }
+
     });
 
 

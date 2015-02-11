@@ -1,0 +1,29 @@
+
+<div class="container">
+    <div class="right-sidebar">
+    	<div class="row">
+    		<div class="large-12 columns" drop-target>
+              <div class="checkbox todo" ng-repeat="todo in user.tasks" drag id="{{todo._id}}">
+               
+                    <label>
+                        <input type="checkbox" ng-click="deleteTodo(tasks._id)"> {{ todo.text }}
+                    </label>
+                    <p>{{ todo.notes }}</p>
+                </div>
+            </div>
+    	</div>
+    
+    </div>
+
+<div class="main-dashboard">
+
+        <div class="row">
+        <div class="large-12 columns">
+            <center><h1>{{ user.firstname }}'s Workload</span></h1></center>
+        </div>
+        </div>
+
+   
+
+    </div>
+</div>

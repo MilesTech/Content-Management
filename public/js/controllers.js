@@ -19,7 +19,8 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice) {
 
      $scope.formData = {};
-	 
+	
+
     // when landing on the page, get all todos and show them
 	
 	milesAPIservice.getTodos().success(function (res) {
@@ -31,36 +32,30 @@ angular.module('milesCommandCenter.controllers', [])
 	 	$scope.users = res;
 	 });
 	
-	$scope.moveToBox = function(todoid, userid) {
+	$scope.moveToBox = function(todoid, newUserId) {
         for (var index = 0; index < $scope.todos.length; index++) {
  
             var item = $scope.todos[index];
             if (item._id == todoid) {
-				$scope.updateTodo(item, userid);	
+				
+				$scope.updateTodo(item, newUserId);	
             }
         }
 
     };
  
 
-	$scope.updateTodo = function(todo, userid){
+	$scope.updateTodo = function(todo, newUserId){
 		
-		if(!userid){
-			userid="";	
-		} else {
-			
-			$http.post('/api/users/' + userid, {task: todo._id})
-            .success(function(data) {
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-			
-		}
+		if(!newUserId){
+			newUserId="";	
+		} 
 		
-		$http.post('/api/todos/' + todo._id, {assigned: userid})
+		
+		$http.post('/api/todos/' + todo._id, {newAssigned: newUserId, oldAssigned: todo.assigned})
             .success(function(data) {
                  $scope.todos = data;
+				 console.log(data)
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -70,7 +65,6 @@ angular.module('milesCommandCenter.controllers', [])
 			
 	};
 	
-
     $scope.createTodo = function() {
 		
 		switch($scope.formData.type) {
@@ -119,6 +113,25 @@ angular.module('milesCommandCenter.controllers', [])
 	}
 
 })
+
+/**********************************************************************
+ * User controller
+ **********************************************************************/
+
+
+.controller('userController', function($scope, $routeParams, $http, milesAPIservice) {
+	
+	
+	milesAPIservice.getUser($routeParams.userid).success(function (res) {
+	 	$scope.user = res;
+		console.log($scope.user)
+	 });
+	
+
+  
+
+})
+
 
 
 /**********************************************************************

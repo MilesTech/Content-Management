@@ -29,5 +29,10 @@ User.methods.toJSON = function(){
 	return obj
 }
 
+User.methods.toObjID = function(id){
+
+	var objId = mongoose.Types.ObjectId(id)
+	return objId
+}
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', User);

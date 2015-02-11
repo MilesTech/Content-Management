@@ -4,7 +4,7 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 'milesCommandCenter.directives',
 'ngRoute'
 ])
-.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider',  function($routeProvider, $locationProvider, $httpProvider) {
 	
 	var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
       // Initialize a new promise
@@ -55,11 +55,11 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 
   $routeProvider
 	.when("/", {
-	  templateUrl: "views/home.html", 
+	  templateUrl: "/views/home.html", 
 	  controller: "mainController"
 	  })
 	.when("/register", {
-	  templateUrl: "views/register.html", 
+	  templateUrl: "/views/register.html", 
 	  controller: "registerController"
 	  })
 	.when("/login", {
@@ -67,8 +67,15 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 	  controller: "loginController"
 	  })
 	.when("/dashboard", {
-	  templateUrl: "views/dashboard.html", 
+	  templateUrl: "/views/dashboard.html", 
 	  controller: "dashboardController",
+	  resolve: {
+          loggedin: checkLoggedin
+        }
+	  })
+	  .when("/user/:userid", {
+	  templateUrl: "/views/user.html", 
+	  controller: "userController",
 	  resolve: {
           loggedin: checkLoggedin
         }

@@ -24,11 +24,26 @@ return {
          
             element.bind("dragover", function(eventObject){
                 eventObject.preventDefault();
-				
-            });
+			});
+			element.bind("dragenter", function(eventObject){
+			
+				if($(this).hasClass('todo-queue')){
+					$(this).addClass('dragenter');
+				}
+			});
+			element.bind("dragleave", function(eventObject){
+
+						$(this).removeClass('dragenter');
+			
+			});
+			
+			
+			
  
             element.bind("drop", function(eventObject) {
-                 
+                 $('.dragenter').each(function(index, element) {
+                    $(this).removeClass('dragenter');
+                });
                 // invoke controller/scope move method
                 scope.moveToBox(eventObject.originalEvent.dataTransfer.getData("text"), attributes.id);
  

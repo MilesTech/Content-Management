@@ -3,6 +3,8 @@
     <div class="right-sidebar">
     	<div class="row">
     		<div class="large-12 columns" drop-target>
+            <h2 class="queue">New Task Queue</h2>
+            
               <div class="checkbox todo" ng-repeat="todo in todos" ng-if="!todo.assigned"  drag id="{{todo._id}}">
                
                     <label>
@@ -30,10 +32,10 @@
             <div class="row">
             	<div class="users large-4 columns" ng-repeat="user in users">
                  
-                        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                        <h3><a href="/user/{{user._id}}">{{ user.firstname }} {{ user.lastname }}</a></h3>
                         <div class="todo-queue" id="{{user._id}}" drop-target>
                         <ul>
-                        	<li ng-repeat="todo in todos | filter:{assigned: user._id}" drag id="{{todo._id}}">{{ todo.text }}</li>
+                        	<li class="queue-item" ng-repeat="todo in todos | filter:{assigned: user._id}" drag id="{{todo._id}}">{{ todo.text }}</li>
                             </ul>
                         </div>
                         
@@ -60,7 +62,6 @@
               
                <div class="form-section">
                    <select class="task-input" ng-model="formData.type">
-                       <option selected value="0">Select A Type</option>
                        <option value="mockup">Mockup</option>
                        <option value="qa">QA</option>
                        <option value="development">Development</option>
