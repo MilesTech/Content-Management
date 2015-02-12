@@ -1,13 +1,23 @@
-<form ng-submit="login()">
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" ng-model="user.email"/>
+
+<div class="row">
+<div class="large-5 large-centered columns">
+    <div class="login">
+        <form ng-submit="login()" >
+        
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" ng-model="user.email"/>
+            </div>
+            
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" ng-model="user.password"/>
+            </div>
+            
+            <div>
+                <input type="submit" value="Log In"/>
+            </div>
+        </form>
     </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" ng-model="user.password"/>
-    </div>
-    <div>
-        <input type="submit" value="Log In"/>
-    </div>
-</form>
+</div>
+</div>

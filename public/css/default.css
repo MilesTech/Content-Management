@@ -21,6 +21,8 @@ z-index: 1000;
 right:0;
 }
 
+
+
 .right-sidebar .todo{color:#fff; margin:10px 0;}
 
 .main-dashboard{width:100%; padding-right: 300px;}
@@ -35,3 +37,82 @@ form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cur
 
 [column col="2/3"]<div>[si-contact-form form='1']</div>[/column]*/
 
+
+
+/*======================
+Login
+=======================*/
+
+.login{padding:20px; border:2px solid #ccc; border-radius:8px; margin-top:50px;}
+.login label{display:block;}
+.login input{width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;}
+.login div{margin:10px 0;}
+.login input[type="submit"]{background: #004AA1; border:none; color:#fff; padding:10px 25px; display:inline-block; text-align:center; cursor:pointer;}
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{background:none;}
+
+
+
+/*======================
+User Dashboard
+=======================*/
+
+.large-2-5{width:20%;}
+
+
+
+
+
+.page.ng-leave   {
+	-webkit-animation: opacitydown .5s both ease-in;
+	-moz-animation: opacitydown .5s both ease-in;
+	animation: opacitydown .5s both ease-in;
+}
+.page.ng-enter  	{  
+    -webkit-animation:opacityUp 0.5s both ease-in;
+	-moz-animation:opacityUp 0.5s both ease-in;
+	animation:opacityUp 0.5s both ease-in;    
+}
+
+.page.ng-enter  .right-sidebar {
+		-webkit-animation:slidein 0.5s ease;
+		
+}
+.page.ng-leave  .right-sidebar {
+		-webkit-animation:slideout 0.6s ease;
+}
+
+
+.page.ng-leave .main-dashboard{
+	display:none;
+}
+
+
+/* about ------------------------ */
+
+
+  
+
+
+/* scale up */
+@-webkit-keyframes slideyUp {
+	from 		{ opacity: 1; }
+	to 		{ opacity: 1; }
+}
+
+@-webkit-keyframes opacitydown {
+	from 		{ opacity: 1; }
+	to 		{ opacity: 1; }
+}
+
+
+@-webkit-keyframes slidein {
+	0%{margin-right:-300px;}
+	70%{margin-right:-300px;}		
+  100% {margin-right:0px;}
+
+}
+
+@-webkit-keyframes slideout {
+	0% {margin-right:0px;}
+	100% {margin-right:-300px;}
+}

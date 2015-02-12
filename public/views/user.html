@@ -3,6 +3,8 @@
     <div class="right-sidebar">
     	<div class="row">
     		<div class="large-12 columns" drop-target>
+            <h2 class="queue">{{ user.firstname }}'s Pending Tasks</h2>
+            
               <div class="checkbox todo" ng-repeat="todo in user.tasks" drag id="{{todo._id}}">
                
                     <label>
@@ -18,11 +20,28 @@
 <div class="main-dashboard">
 
         <div class="row">
-        <div class="large-12 columns">
-            <center><h1>{{ user.firstname }}'s Workload</span></h1></center>
-        </div>
+            <div class="large-12 columns">
+                <center><h1>{{ user.firstname }}'s Workload</span></h1></center>
+            </div>
         </div>
 
+   <div class="row">
+       <div class="large-2-5 columns">
+       	<h2>Monday</h2>
+       </div>
+       <div class="large-2-5 columns">
+       	<h2>Tuesday</h2>
+       </div>
+       <div class="large-2-5 columns">
+       	<h2>Wednesday</h2>
+       </div>
+       <div class="large-2-5 columns">
+		<h2>Thursday</h2>
+       </div> 
+       <div class="large-2-5 columns">
+		<h2>Friday</h2>
+       </div>    
+   </div>
    
 
     </div>

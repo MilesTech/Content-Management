@@ -16,11 +16,10 @@ angular.module('milesCommandCenter.controllers', [])
 /**********************************************************************
  * Dashboard controller
  **********************************************************************/
-.controller('dashboardController', function($scope, $http, milesAPIservice) {
-
+.controller('dashboardController', function($scope, $http, milesAPIservice, $animate) {
+	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
 	
-
     // when landing on the page, get all todos and show them
 	
 	milesAPIservice.getTodos().success(function (res) {
@@ -44,6 +43,8 @@ angular.module('milesCommandCenter.controllers', [])
 
     };
  
+ 
+
 
 	$scope.updateTodo = function(todo, newUserId){
 		
@@ -120,7 +121,7 @@ angular.module('milesCommandCenter.controllers', [])
 
 
 .controller('userController', function($scope, $routeParams, $http, milesAPIservice) {
-	
+	$scope.pageClass = 'page-user';
 	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
 	 	$scope.user = res;
