@@ -5,10 +5,13 @@ body{margin:0; padding:0; font-family: 'Oxygen', sans-serif;}
 /*======================
 Dashboard
 =======================*/
-.todo-queue{border:#ccc 1px solid; padding:10px 10px 70px 10px; }
+.todo-queue{border:#ccc 1px solid; padding:10px; }
 .todo-queue.dragenter{ background:url(/imgs/drop-img.jpg) bottom 10px center no-repeat;}
 .todo-queue ul{margin:0; padding:0}
-.todo-queue ul li{list-style:none; color:#fff; font-weight:400; padding:10px; border-bottom:1px solid #fff; background:#004AA1}
+.todo-queue ul li{list-style:none; color:#fff; font-weight:400; padding:10px; border-bottom:1px solid #fff; background:#004AA1; }
+
+.todo-queue ul li.ui-sortable-placeholder{background:#F0F0F0;}
+
 h2.queue{color:#fff;}
 
 

@@ -32,6 +32,8 @@ angular.module('milesCommandCenter.controllers', [])
 	 });
 	
 	$scope.moveToBox = function(todoid, newUserId) {
+		
+		
         for (var index = 0; index < $scope.todos.length; index++) {
  
             var item = $scope.todos[index];
@@ -55,8 +57,8 @@ angular.module('milesCommandCenter.controllers', [])
 		
 		$http.post('/api/todos/' + todo._id, {newAssigned: newUserId, oldAssigned: todo.assigned})
             .success(function(data) {
-                 $scope.todos = data;
-				 console.log(data)
+                 //$scope.todos = data;
+				
             })
             .error(function(data) {
                 console.log('Error: ' + data);
