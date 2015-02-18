@@ -32,7 +32,7 @@ app.use(session({ secret: 'Miles Tech' }));
   app.use(passport.initialize());
   app.use(passport.session());
 
-
+app.set('port', (process.env.PORT || 3000));
 
 
 
@@ -72,6 +72,6 @@ app.post('/api/photo',function(req,res){
 
 
 /*Run the server.*/
-app.listen(3000,function(){
+app.listen(app.get('port'),function(){
     console.log("Working on port 3000");
 });
