@@ -35,7 +35,7 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
-		$http.post('/api/todos/' + todoid).success(function(err, data){});
+		$http.post('/api/todos/' + todoid, {pull: true}).success(function(err, data){});
 		
 		$('#' + newUserId + ' li').each(function(index, element) {
             todoArray.push($(this).attr('id'));
@@ -111,8 +111,12 @@ angular.module('milesCommandCenter.controllers', [])
 		
 	 });
 	
-	$scope.moveToBox = function(day, newUserId) {
-		
+	$scope.moveToBox = function(todoId, day) {
+		if(!day) day="";
+		 $http.post('/api/todos/' + todoId, {day: day})
+		 .success(function(data){
+			 console.log(data);
+		 });
 	}
   
 
@@ -192,7 +196,6 @@ $scope.pageClass = 'page-login'
  * Admin controller
  **********************************************************************/
 .controller('logoutController', function($scope, $http, $location) {
-
   // Fill the array to display it in the page
   $http.get('/logout').success(function(users){
 	  $location.url('/')

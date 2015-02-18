@@ -149,8 +149,16 @@ app.post('/login', passport.authenticate('local-login', {
 
     app.post('/api/todos/:todo_id', function(req, res) {
 		
-		User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
-		function(err,  user){res.json(user)})
+		
+		if (req.body.pull){
+			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
+			function(err,  user){res.json(user)})
+		} else {
+
+			Todo.update({_id: req.params.todo_id},
+			 { $set: req.body }, function(err, doc){})
+			
+		}
 				
     });
 

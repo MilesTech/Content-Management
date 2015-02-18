@@ -15,8 +15,9 @@ return {
 	},
 	stop: function(e, ui){
 		
-		scope.moveToBox(ui.item.attr('id'), ui.item.parent('ul').attr('id'))
-		
+			
+			scope.moveToBox(ui.item.attr('id'), ui.item.parent('ul').attr('id'));
+	
 	}
 	});
  	
