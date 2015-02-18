@@ -17,6 +17,21 @@ angular.module('milesCommandCenter.services', []).
       });
 	};
 	
+	  milesAPI.getTeam = function() {
+      return $http({
+		 method: 'Get', 
+        url: '/api/team'
+      });
+	};
+	
+	milesAPI.getCurrentUser = function() {
+      return $http({
+		 method: 'Get', 
+        url: '/api/session'
+      });
+	};
+	
+	
 	   milesAPI.getUser = function(id) {
       return $http({
 		 method: 'Get', 

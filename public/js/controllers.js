@@ -19,57 +19,39 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate) {
 	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
-	
-    // when landing on the page, get all todos and show them
-	
+		
 	milesAPIservice.getTodos().success(function (res) {
 	 	$scope.todos = res;
 	 });
-	 
-	 
-	 milesAPIservice.getUsers().success(function (res) {
+	 	 
+	 milesAPIservice.getTeam().success(function (res) {
 	 	$scope.users = res;
+	 });
+	 
+	  milesAPIservice.getCurrentUser().success(function (res) {
+		  console.log(res);
+	 	$scope.session = res;
 	 });
 	
 	$scope.moveToBox = function(todoid, newUserId) {
+		var todoArray=[];
+		$http.post('/api/todos/' + todoid).success(function(err, data){});
 		
+		$('#' + newUserId + ' li').each(function(index, element) {
+            todoArray.push($(this).attr('id'));
+        });
 		
-        for (var index = 0; index < $scope.todos.length; index++) {
- 
-            var item = $scope.todos[index];
-            if (item._id == todoid) {
-				
-				$scope.updateTodo(item, newUserId);	
-            }
-        }
+		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
+		.success(function(err, data){
+			console.log(data)
+			$scope.users = data
+			});
+		
 
     };
  
- 
-
-
-	$scope.updateTodo = function(todo, newUserId){
-		
-		if(!newUserId){
-			newUserId="";	
-		} 
-		
-		
-		$http.post('/api/todos/' + todo._id, {newAssigned: newUserId, oldAssigned: todo.assigned})
-            .success(function(data) {
-                 //$scope.todos = data;
-				
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-			
-			
-			
-	};
 	
     $scope.createTodo = function() {
-		
 		switch($scope.formData.type) {
     case "mockup":
         $scope.formData.hours = 8;
@@ -87,8 +69,7 @@ angular.module('milesCommandCenter.controllers', [])
         $scope.formData.hours = 16;
         break;			
 }
-		
-		
+			
         $http.post('/api/todos', $scope.formData)
             .success(function(data) {
                 $scope.formData = {}; // clear the form so our user is ready to enter another
@@ -107,7 +88,7 @@ angular.module('milesCommandCenter.controllers', [])
         $http.delete('/api/todos/' + id)
             .success(function(data) {
                 $scope.todos = data;
-                console.log(data);
+              
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -127,10 +108,12 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
 	 	$scope.user = res;
-		console.log($scope.user)
+		
 	 });
 	
-
+	$scope.moveToBox = function(day, newUserId) {
+		
+	}
   
 
 })
@@ -167,7 +150,7 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('loginController', function($scope, $rootScope, $http, $location) {
   // This object will be filled by the form
   $scope.user = {};
-
+$scope.pageClass = 'page-login'
   // Register the login() function
   $scope.login = function(){
     $http.post('/login', {
@@ -175,13 +158,14 @@ angular.module('milesCommandCenter.controllers', [])
       password: $scope.user.password,
     })
     .success(function(user){
+	
       // No error: authentication OK
-      $rootScope.message = 'Authentication successful!';
+     
       $location.url('/dashboard');
     })
     .error(function(){
       // Error: authentication failed
-      $rootScope.message = 'Authentication failed.';
+      $rootScope.message = 'Username or Password Not Found';
       $location.url('/login');
     });
   };
@@ -201,4 +185,18 @@ angular.module('milesCommandCenter.controllers', [])
     for (var i in users)
       $scope.users.push(users[i]);
   });
+})
+
+
+/**********************************************************************
+ * Admin controller
+ **********************************************************************/
+.controller('logoutController', function($scope, $http, $location) {
+
+  // Fill the array to display it in the page
+  $http.get('/logout').success(function(users){
+	  $location.url('/')
+  });
 });
+
+

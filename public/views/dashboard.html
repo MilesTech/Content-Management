@@ -1,17 +1,37 @@
 
 <div class="container">
+
+<div class="header">
+  <div class="row">
+        <div class="large-8 columns">
+           <h1>Miles Command Center</h1>
+        </div>
+         <div class="large-4 columns">
+           <ul class="nav">
+          <li> Welcome, {{session.user_firstname}} {{session.user_lastname}}</li>
+          <li><a href="/logout">logout</a></li>
+           </ul> 
+        </div>
+        </div>
+</div>
+
+
     <div class="right-sidebar">
     	<div class="row">
-    		<div class="large-12 columns" drop-target>
+    		<div class="large-12 columns">
             <h2 class="queue">New Task Queue</h2>
             
-              <div class="checkbox todo queue-item" ng-repeat="todo in todos" ng-if="!todo.assigned"  drag id="{{todo._id}}">
+            <ul sortable class="todo-queue">
+              <li class="checkbox todo queue-item" ng-repeat="todo in todos"  id="{{todo._id}}">{{ todo.text }}
                
-                    <label>
+                   <!-- <label>
                         <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
                     </label>
-                    <p>{{ todo.notes }}</p>
-                </div>
+                    <p>{{ todo.notes }}</p>-->
+                </li>
+                
+               </ul> 
+          
             </div>
     	</div>
     
@@ -19,12 +39,7 @@
 
 <div class="main-dashboard">
 
-        <div class="row">
-        <div class="large-12 columns">
-            <center><h1>Miles Command Center <span class="label label-info">{{ todos.length }}</span></h1></center>
-        </div>
-        </div>
-
+     
 
         <div id="todo-list" class="row">
         
@@ -33,11 +48,11 @@
             	<div class="users large-4 columns" ng-repeat="user in users">
                  
                         <h3><a href="/user/{{user._id}}">{{ user.firstname }} {{ user.lastname }}</a></h3>
-                        <div class="todo-queue" id="{{user._id}}" drop-target sortable>
-                        <ul class="todo-queue2">
-                        	<li class="queue-item" ng-repeat="todo in todos | filter:{assigned: user._id}" drag id="{{todo._id}}" >{{ todo.text }}</li>
+                        
+                        <ul class="todo-queue" id="{{user._id}}" sortable >
+                        	<li class="queue-item" ng-repeat="todo in user.tasks" drag id="{{todo._id}}" >{{ todo.text }}</li>
                             </ul>
-                        </div>
+              
                         
                     </div>
              </div>       

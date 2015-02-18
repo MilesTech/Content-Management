@@ -67,6 +67,10 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 	  templateUrl: "views/login.html", 
 	  controller: "loginController"
 	  })
+	  .when("/logout", {
+		templateUrl: "views/home.html",
+	  controller: "logoutController"
+	  })
 	.when("/dashboard", {
 	  templateUrl: "/views/dashboard.html", 
 	  controller: "dashboardController",

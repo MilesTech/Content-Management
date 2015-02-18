@@ -1,44 +1,39 @@
 @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700,300);
 
-body{margin:0; padding:0; font-family: 'Oxygen', sans-serif;}
+body{margin:0; padding:0; font-family: 'Oxygen', sans-serif; overflow:hidden;}
 
 /*======================
 Dashboard
 =======================*/
-.todo-queue{border:#ccc 1px solid; padding:10px; }
-.todo-queue.dragenter{ background:url(/imgs/drop-img.jpg) bottom 10px center no-repeat;}
-.todo-queue ul{margin:0; padding:0}
-.todo-queue ul li{list-style:none; color:#fff; font-weight:400; padding:10px; border-bottom:1px solid #fff; background:#004AA1; }
 
-.todo-queue ul li.ui-sortable-placeholder{background:#F0F0F0;}
+.header{background:#3E606F;}
+.header h1{color:#fff; font-weight:200;}
+.todo-queue{ background:#193441; margin:0; padding:10px; border-radius: 0 0 8px 8px; }
+
+.todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#fff; color:#193441; border-radius:3px; box-shadow: 2px 2px 1px #CCC;}
+
+.todo-queue li.ui-sortable-placeholder{background:#3E606F;}
 
 h2.queue{color:#fff;}
 
-
-.right-sidebar {
-background: #004AA1;
-position: fixed;
-height: 100%;
-width: 300px;
-z-index: 1000;
-right:0;
+.nav{text-align:right;}
+.nav li{ display:inline-block; padding:0 20px; text-align:right; color:#fff; font-size:1.1em;}
+.nav li:last-child{padding-right:0;}
+.nav li a{color:#fff;}
+.right-sidebar {background: #193441; position: fixed; height: 100%; width: 300px; z-index: 1000; right:0;
 }
 
 
-
-.right-sidebar .todo{color:#fff; margin:10px 0;}
-
-.main-dashboard{width:100%; padding-right: 300px;}
-
+.right-sidebar .todo{margin:10px 0;}
+.main-dashboard{width:100%; padding-right: 300px; margin-top:30px;}
 .task-input{width:100%; padding:5px; font-size:1.2em;}
-
 .form-section{margin:20px 0;}
-
 form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cursor:pointer}
 
-/*[column col="2/3"][gravityform id=2 name=ContactUs title=false][/column]-->
+.users h3{padding:20px; background:#3E606F; margin:0; border-radius: 8px 8px 0 0;}
+.users h3 a{font-weight:normal; text-decoration:none; color:#FCFFF5;}
 
-[column col="2/3"]<div>[si-contact-form form='1']</div>[/column]*/
+
 
 
 
@@ -46,36 +41,42 @@ form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cur
 Login
 =======================*/
 
-.login{padding:20px; border:2px solid #ccc; border-radius:8px; margin-top:50px;}
+.login{padding:20px; border:2px solid #ccc; border-radius:0 0 8px 8px;}
 .login label{display:block;}
-.login input{width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;}
+.login input{width:100%; padding:8px; border:1px solid #ccc; border-radius:5px}
 .login div{margin:10px 0;}
-.login input[type="submit"]{background: #004AA1; border:none; color:#fff; padding:10px 25px; display:inline-block; text-align:center; cursor:pointer;}
+.login input[type="submit"]{background: #3E606F; border:none; color:#fff; padding:10px 25px; display:inline-block; text-align:center; cursor:pointer; font-size:1.5em; transition:all .2s ease;}
+.login input[type="submit"]:hover{background:#193441;}
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{background:none;}
-
-
+.page-login{background:#fff; height:100%; width:100%;}
+.page-login h3{padding:20px; background:#3E606F; margin:50px 0 0 0; border-radius: 8px 8px 0 0; color:#fff; font-size:2em; font-weight:200;}
 
 /*======================
 User Dashboard
 =======================*/
-
-.large-2-5{width:20%;}
-
-
+.day{margin:20px 0;}
+.day h2{padding:20px; background:#3E606F; margin:0; border-radius: 8px 8px 0 0; color:#fff; font-weight:200;}
 
 
 
+
+
+/*======================
+Page Animations
+=======================*/
+
+.page{position:absolute; width:100%; height:100%;}
 .page.ng-leave   {
-	-webkit-animation: opacitydown .5s both ease-in;
-	-moz-animation: opacitydown .5s both ease-in;
-	animation: opacitydown .5s both ease-in;
+	-webkit-animation: opacitydown .5s both .5s ease-in;
+	-moz-animation: opacitydown .5s both .5s ease-in;
+	animation: opacitydown .5s both .5s ease-in;
 }
 .page.ng-enter  	{  
-    -webkit-animation:opacityUp 0.5s both ease-in;
-	-moz-animation:opacityUp 0.5s both ease-in;
-	animation:opacityUp 0.5s both ease-in;    
+    -webkit-animation:opacityUp 0.5s both .5s ease-in;
+	-moz-animation:opacityUp 0.5s both .5s ease-in;
+	animation:opacityUp 0.5s both .5s ease-in;    
 }
-
+/*
 .page.ng-enter  .right-sidebar {
 		-webkit-animation:slidein 0.5s ease;
 		
@@ -83,10 +84,20 @@ User Dashboard
 .page.ng-leave  .right-sidebar {
 		-webkit-animation:slideout 0.6s ease;
 }
+*/
 
 
-.page.ng-leave .main-dashboard{
-	display:none;
+
+
+.page-login.ng-enter {
+	 -webkit-animation:slideDown 0.5s both ease-in;
+	-moz-animation:slideDown 0.5s both ease-in;
+	animation:slideDown 0.5s both ease-in;  
+}
+.page-login.ng-leave {
+	 -webkit-animation:slideUp 0.5s both ease-in;
+	-moz-animation:slideUp 0.5s both ease-in;
+	animation:slideUp 0.5s both ease-in;  
 }
 
 
@@ -97,14 +108,27 @@ User Dashboard
 
 
 /* scale up */
-@-webkit-keyframes slideyUp {
-	from 		{ opacity: 1; }
-	to 		{ opacity: 1; }
+@-webkit-keyframes opacityUp {
+	from 		{ -webkit-transform: translateX(100%); }
+	to 		{ -webkit-transform: translateX(0px); }
 }
 
 @-webkit-keyframes opacitydown {
-	from 		{ opacity: 1; }
-	to 		{ opacity: 1; }
+	from 		{ -webkit-transform: translateX(0px); }
+	to 		{ -webkit-transform: translateX(-100%); }
+}
+
+
+
+/* scale up */
+@-webkit-keyframes slideDown {
+	from 		{ -webkit-transform: translateY(-100%); }
+	to 		{ -webkit-transform: translateY(0px); }
+}
+
+@-webkit-keyframes slideUp {
+	from 		{ -webkit-transform: translateY(0px); }
+	to 		{ -webkit-transform: translateY(-100%); }
 }
 
 

@@ -4,7 +4,6 @@ angular.module('milesCommandCenter.filters', [])
 
 return function(todo){
 	
-		console.log(todo)
 	
 }
   
