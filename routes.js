@@ -112,13 +112,13 @@ app.post('/login', passport.authenticate('local-login', {
 		 }
 		 User.update({_id:req.params.user_id}, {$set: {tasks: todoArray}}, 
 			function(err, user){
-				if(user == 0 || !user){
+			if(user == 0 || !user){
 				Todo.update({_id: todoId}, {assigned: ""}, function(err, todo){})
 			} else {
 				Todo.update({_id: todoId}, {assigned: "true"}, function(err, todo){})
 			}
- 
-				 });
+			res.send(200)
+		});
 
 	 
 		

@@ -19,6 +19,10 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate) {
 	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
+	$scope.socket = io.connect('http://localhost:3000');
+ 
+   
+ 
 		
 	milesAPIservice.getTodos().success(function (res) {
 	 	$scope.todos = res;
@@ -29,9 +33,20 @@ angular.module('milesCommandCenter.controllers', [])
 	 });
 	 
 	  milesAPIservice.getCurrentUser().success(function (res) {
-		  console.log(res);
+		
 	 	$scope.session = res;
 	 });
+	 
+	 
+	 $scope.socket.on('message', function (data) {
+		 
+		 $scope.$apply(function(){
+			     $scope.users = data.message
+	   console.log($scope.users);
+		 })
+   
+    });
+	 
 	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
@@ -41,10 +56,16 @@ angular.module('milesCommandCenter.controllers', [])
             todoArray.push($(this).attr('id'));
         });
 		
+		
 		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
 		.success(function(err, data){
-			console.log(data)
-			$scope.users = data
+			
+			 milesAPIservice.getTeam().success(function (res) {
+					$scope.users = res;
+					$scope.socket.emit('send', { message: res});
+	 			});
+			
+			
 			});
 		
 
@@ -104,6 +125,10 @@ angular.module('milesCommandCenter.controllers', [])
 
 
 .controller('userController', function($scope, $routeParams, $http, milesAPIservice) {
+	
+ 
+
+	
 	$scope.pageClass = 'page-user';
 	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
@@ -115,7 +140,7 @@ angular.module('milesCommandCenter.controllers', [])
 		if(!day) day="";
 		 $http.post('/api/todos/' + todoId, {day: day})
 		 .success(function(data){
-			 console.log(data);
+			 
 		 });
 	}
   
