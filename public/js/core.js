@@ -3,7 +3,8 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 'milesCommandCenter.services',
 'milesCommandCenter.directives',
 'ngRoute',
-'ngAnimate'
+'ngAnimate',
+'ngDialog'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider',  function($routeProvider, $locationProvider, $httpProvider) {
 	

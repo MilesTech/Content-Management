@@ -51,16 +51,6 @@ app.post('/login', passport.authenticate('local-login', {
 //==================================================================
 // Todo Routes
 //==================================================================
- app.get('/api/todos', function(req, res) {
-	 
-        Todo.find({assigned : ""}, function(err, todos) {
-            if (err){
-                res.send(err)
-			}
-            res.json(todos);
-        });
-		
-    });
 
  app.get('/api/users', isLoggedIn, function(req, res) {
 	 
@@ -102,6 +92,19 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	
 	
+	 app.get('/api/todos', function(req, res) {
+	 
+        Todo.find({assigned : ""}, function(err, todos) {
+            if (err){
+                res.send(err)
+			}
+            res.json(todos);
+        });
+		
+    });
+
+	
+	
 	app.post('/api/users/:user_id', isLoggedIn, function(req, res) {
 	 
 	 var todoArray = req.body.tasks;
@@ -110,13 +113,10 @@ app.post('/login', passport.authenticate('local-login', {
 		 for (i=0; i<todoArray.length;i++){
 			todoArray[i] =  mongoose.Types.ObjectId(todoArray[i])
 		 }
+		 
 		 User.update({_id:req.params.user_id}, {$set: {tasks: todoArray}}, 
 			function(err, user){
-			if(user == 0 || !user){
-				Todo.update({_id: todoId}, {assigned: ""}, function(err, todo){})
-			} else {
-				Todo.update({_id: todoId}, {assigned: "true"}, function(err, todo){})
-			}
+
 			res.send(200)
 		});
 
@@ -147,18 +147,25 @@ app.post('/login', passport.authenticate('local-login', {
     });
 
 
-    app.post('/api/todos/:todo_id', function(req, res) {
+
+   app.get('/api/todos/:todo_id', function(req, res) {
 		
+		Todo.findOne({_id: req.params.todo_id}, function(err, todo){
+			res.json(todo)
+		});
+		
+    });
+
+    app.post('/api/todos/:todo_id', function(req, res) {
 		
 		if (req.body.pull){
 			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
-			function(err,  user){res.json(user)})
-		} else {
+			function(err,  user){res.json(user); return})
+		} 
 
 			Todo.update({_id: req.params.todo_id},
 			 { $set: req.body }, function(err, doc){})
 			
-		}
 				
     });
 
@@ -171,9 +178,12 @@ app.post('/login', passport.authenticate('local-login', {
         }, function(err, todo) {
             if (err)
                 res.send(err);
-
+				
+			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
+			function(err,  user){})
+			
             // get and return all the todos after you create another
-            Todo.find(function(err, todos) {
+            Todo.find({assigned : ""}, function(err, todos) {
                 if (err)
                     res.send(err)
                 res.json(todos);

@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Oxygen:400,700,300);
 
 body{margin:0; padding:0; font-family: 'Oxygen', sans-serif; }
-
+input, textarea{font-family: 'Oxygen', sans-serif;}
 /*======================
 Fonts
 =======================*/
@@ -47,7 +47,7 @@ form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cur
 .users h3{padding:20px; background:#3E606F; margin:0; border-radius: 8px 8px 0 0;}
 .users h3 a{font-weight:normal; text-decoration:none; color:#FCFFF5;}
 
-
+.delete a{ color:red; font-size:1.2em; font-weight:bold; padding:0 5px; text-decoration:none; float:right;}
 
 
 
@@ -69,10 +69,18 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{backg
 User Dashboard
 =======================*/
 .day{margin:20px 0;}
-.day h2{padding:20px; background:#3E606F; margin:0; border-radius: 8px 8px 0 0; color:#fff; font-weight:200;}
+.day h2{ margin:0; border-radius: 8px 8px 0 0; color:#3E606F; font-weight:200;}
+.day .todo-queue{background:none;}
+.day .todo-queue li {box-shadow:none; margin-left:30px;}
 
 
 
+/*======================
+Task Screen Popup
+=======================*/
+.task-screen form{width:90%; margin:auto;}
+.task-screen input, .task-screen textarea{display:block; padding:5px; margin:10px 0; width:100%; font-size:1.1em;}
+.task-screen textarea{height:200px;}
 
 
 /*======================
@@ -157,3 +165,110 @@ Page Animations
 	0% {margin-right:0px;}
 	100% {margin-right:-300px;}
 }
+
+/* Dialog ------------------------ */
+
+@-webkit-keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.ngdialog,
+.ngdialog *,
+.ngdialog *:before,
+.ngdialog *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.ngdialog {
+  position: fixed;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.ngdialog-overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.3s;
+  animation: ngdialog-fadein 0.3s;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-overlay {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.3s;
+  animation: ngdialog-fadeout 0.3s;
+}
+
+.ngdialog-content {
+  background: white;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.3s;
+  animation: ngdialog-fadein 0.3s;
+  position: relative;
+  max-width:600px;
+  margin:auto;
+  padding:30px;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-content {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.3s;
+  animation: ngdialog-fadeout 0.3s;
+}
+
+.ngdialog-close:before {
+  content: '\00D7';
+  cursor: pointer;
+}
+
+body.ngdialog-open {
+  overflow: hidden;
+}
+

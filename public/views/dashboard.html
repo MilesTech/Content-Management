@@ -22,7 +22,7 @@
             <h2 class="queue">New Task Queue</h2>
             
             <ul sortable class="todo-queue">
-              <li class="checkbox todo queue-item" ng-repeat="todo in todos"  id="{{todo._id}}">{{ todo.text }}
+              <li class="checkbox todo queue-item" ng-repeat="todo in todos"  id="{{todo._id}}"><span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span>
                
                    <!-- <label>
                         <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
@@ -49,9 +49,12 @@
                  
                         <h3><a href="/user/{{user._id}}">{{ user.firstname }} {{ user.lastname }}</a></h3>
                         
-                        <ul class="todo-queue" id="{{user._id}}" sortable >
-                        	<li class="queue-item" ng-repeat="todo in user.tasks" drag id="{{todo._id}}" >{{ todo.text }}</li>
-                            </ul>
+                    <ul class="todo-queue" id="{{user._id}}" sortable >
+                        <li class="queue-item" ng-repeat="todo in user.tasks" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
+                            <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 
+                            <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
+                        </li>                         
+                    </ul>
               
                         
                     </div>

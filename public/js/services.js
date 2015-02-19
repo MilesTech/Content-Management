@@ -39,8 +39,14 @@ angular.module('milesCommandCenter.services', []).
       });
 	};
 	
+	milesAPI.getTask = function(id) {
+      return $http({
+		 method: 'Get', 
+        url: '/api/todos/' + id
+      });
+	};
 	
-  
+
 
     return milesAPI;
   });

@@ -16,14 +16,13 @@ angular.module('milesCommandCenter.controllers', [])
 /**********************************************************************
  * Dashboard controller
  **********************************************************************/
-.controller('dashboardController', function($scope, $http, milesAPIservice, $animate) {
+.controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
 	$scope.socket = io.connect('http://localhost:3000');
- 
-   
- 
-		
+//Initial Load - Get Data	
+
+
 	milesAPIservice.getTodos().success(function (res) {
 	 	$scope.todos = res;
 	 });
@@ -31,26 +30,31 @@ angular.module('milesCommandCenter.controllers', [])
 	 milesAPIservice.getTeam().success(function (res) {
 	 	$scope.users = res;
 	 });
-	 
 	  milesAPIservice.getCurrentUser().success(function (res) {
-		
 	 	$scope.session = res;
 	 });
 	 
 	 
 	 $scope.socket.on('message', function (data) {
-		 
 		 $scope.$apply(function(){
 			     $scope.users = data.message
-	   console.log($scope.users);
 		 })
    
     });
 	 
+	$scope.clickToOpen = function (id) {
+		$scope.todoid = id
+        ngDialog.open({ 
+			template: '/views/task.html',
+			controller: 'taskController',
+			scope: $scope
+		});
+    };
+	
 	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
-		$http.post('/api/todos/' + todoid, {pull: true}).success(function(err, data){});
+		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || ""}).success(function(err, data){});
 		
 		$('#' + newUserId + ' li').each(function(index, element) {
             todoArray.push($(this).attr('id'));
@@ -64,32 +68,36 @@ angular.module('milesCommandCenter.controllers', [])
 					$scope.users = res;
 					$scope.socket.emit('send', { message: res});
 	 			});
-			
-			
+
 			});
-		
 
     };
- 
 	
+	$scope.addOptions = function(todo){
+		 return todo.showDelete = ! todo.showDelete;
+	}
+	
+	
+ 
     $scope.createTodo = function() {
+		
 		switch($scope.formData.type) {
-    case "mockup":
-        $scope.formData.hours = 8;
-        break;
-    case "qa":
-        $scope.formData.hours = 3;
-        break;
-	case "development":
-        $scope.formData.hours = 12;
-        break;
-	case "maintenance":
-        $scope.formData.hours = 2;
-        break;
-	case "content":
-        $scope.formData.hours = 16;
-        break;			
-}
+			case "mockup":
+				$scope.formData.hours = 8;
+				break;
+			case "qa":
+				$scope.formData.hours = 3;
+				break;
+			case "development":
+				$scope.formData.hours = 12;
+				break;
+			case "maintenance":
+				$scope.formData.hours = 2;
+				break;
+			case "content":
+				$scope.formData.hours = 16;
+				break;			
+		}
 			
         $http.post('/api/todos', $scope.formData)
             .success(function(data) {
@@ -106,14 +114,18 @@ angular.module('milesCommandCenter.controllers', [])
 
     // delete a todo after checking it
     $scope.deleteTodo = function(id) {
-        $http.delete('/api/todos/' + id)
-            .success(function(data) {
-                $scope.todos = data;
-              
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
+		var confirmed = confirm('Are you sure you want to delete this task?')
+		if(confirmed){
+			$http.delete('/api/todos/' + id)
+				.success(function(data) {
+					$scope.todos = data;
+					$('#' + id).remove();
+				  
+				})
+				.error(function(data) {
+					console.log('Error: ' + data);
+				});
+		}
 			
 	}
 
@@ -125,10 +137,7 @@ angular.module('milesCommandCenter.controllers', [])
 
 
 .controller('userController', function($scope, $routeParams, $http, milesAPIservice) {
-	
- 
-
-	
+	//Scope Declarations
 	$scope.pageClass = 'page-user';
 	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
@@ -225,6 +234,20 @@ $scope.pageClass = 'page-login'
   $http.get('/logout').success(function(users){
 	  $location.url('/')
   });
+})
+
+
+
+/**********************************************************************
+ * Task controller
+ **********************************************************************/
+.controller('taskController', function($scope, $http, $location, milesAPIservice) {
+
+	milesAPIservice.getTask($scope.$parent.todoid).success(function (res) {
+
+	 	$scope.todo = res;
+	 });
 });
+
 
 

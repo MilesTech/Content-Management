@@ -1,0 +1,30 @@
+
+<div class="task-screen">
+<div class="row">
+<div class="large-12 columns">
+    <center><h1>Task Editing Screen</h1></center>
+    <form>
+    <label>Task Name
+        <input type="text" value="{{todo.text}}" />
+    </label>  
+        <div class="row">
+            <div class="large-6 columns">
+            <label>Due Date
+            	<input type="date" placeholder="date"  />
+               </label> 
+            </div>
+             <div class="large-6 columns">
+             <label>Approximate Hours
+            	<input type="number" placeholder="Hours" value="{{todo.hours}}"  />
+              </label>
+            </div>
+        </div>
+        
+        <span>{{todo.type}}</span>
+        <br>
+        <textarea>{{todo.notes}}</textarea>
+        <input type="submit" value="Save" />
+    </form>
+ </div>
+  </div>      
+</div>
