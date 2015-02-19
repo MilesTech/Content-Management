@@ -19,7 +19,7 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
-	$scope.socket = io.connect('http://localhost:3000');
+	$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com');
 //Initial Load - Get Data	
 
 
