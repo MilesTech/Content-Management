@@ -11,7 +11,7 @@ var morgan = require('morgan');
 var session = require('express-session');     
 var bodyParser = require('body-parser'); 
 var methodOverride = require('method-override'); 
-//var secrets = require('./secrets.js'); 
+var secrets = require('./secrets.js'); 
 var bCrypt = require('bcrypt-nodejs'); 
 
   
@@ -21,8 +21,8 @@ var bCrypt = require('bcrypt-nodejs');
 
   
 /*=================Config=============*/
-mongoose.connect(process.env.mongo);
-//mongoose.connect(secrets.mongoosedatabase());
+//mongoose.connect(process.env.mongo);
+mongoose.connect(secrets.mongoosedatabase());
 app.use(express.static(__dirname + '/public'));  //sets public directory for front end
 app.use(morgan('dev'));  //Logs all http requests to the console (for dev)
 app.use(bodyParser.urlencoded({'extended':'true'})); 

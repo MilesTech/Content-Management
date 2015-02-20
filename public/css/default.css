@@ -25,7 +25,7 @@ Dashboard
 .todo-queue{ background:#193441; margin:0; padding:10px; border-radius: 0 0 8px 8px; }
 
 .todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#fff; color:#193441; border-radius:3px; box-shadow: 2px 2px 1px #CCC;}
-
+.todo-queue li span:first-child{cursor:pointer;}
 .todo-queue li.ui-sortable-placeholder{background:#3E606F; box-shadow:none;}
 
 h2.queue{color:#fff;}
@@ -71,8 +71,8 @@ User Dashboard
 .day{margin:20px 0;}
 .day h2{ margin:0; border-radius: 8px 8px 0 0; color:#3E606F; font-weight:200;}
 .day .todo-queue{background:none;}
-.day .todo-queue li {box-shadow:none; margin-left:30px;}
-
+.day .todo-queue li {box-shadow:none; margin-left:30px; padding:0;}
+.day .todo-queue li.done{color:#ccc; text-decoration:line-through; font-style:italic;}
 
 
 /*======================

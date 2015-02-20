@@ -19,7 +19,7 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
      $scope.formData = {};
-	$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com');
+	$scope.socket = io.connect('http://localhost:3000');
 //Initial Load - Get Data	
 
 
@@ -54,15 +54,15 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
-		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || ""}).success(function(err, data){});
-		
-		$('#' + newUserId + ' li').each(function(index, element) {
+		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || ""}).success(function(err, data){
+			
+			$('#' + newUserId + ' li').each(function(index, element) {
             todoArray.push($(this).attr('id'));
         });
 		
 		
 		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
-		.success(function(err, data){
+		.success(function(error, data){
 			
 			 milesAPIservice.getTeam().success(function (res) {
 					$scope.users = res;
@@ -70,6 +70,11 @@ angular.module('milesCommandCenter.controllers', [])
 	 			});
 
 			});
+			
+			
+			
+			});
+		
 
     };
 	
@@ -142,15 +147,28 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
 	 	$scope.user = res;
-		
 	 });
 	
 	$scope.moveToBox = function(todoId, day) {
 		if(!day) day="";
 		 $http.post('/api/todos/' + todoId, {day: day})
 		 .success(function(data){
-			 
+			milesAPIservice.getUser($routeParams.userid).success(function (res) {
+				$scope.user = {};
+			 });
 		 });
+	}
+	
+	$scope.doneTodo = function(id){
+		var done = false;
+		if($('#' + id + " input").is(':checked')){
+			done= true;
+		}
+		
+		$http.post('/api/todos/' + id, {done: done}).success(function(err, data){console.log(err)});
+			milesAPIservice.getUser($routeParams.userid).success(function (res) {
+	 	$scope.user = res;
+	 });
 	}
   
 

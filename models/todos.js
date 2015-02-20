@@ -8,7 +8,8 @@ var ObjectId = mongoose.Schema.ObjectId;
 		assigned: String,
 		day: String,
 		type: String,
-		hours: Number
+		hours: Number,
+		done : Boolean
     });
 	
 	

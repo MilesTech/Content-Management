@@ -29,7 +29,7 @@
        	<h2>Monday</h2>
        
                 <ul class="todo-queue" id="monday" sortable>
-                	<li class="queue-item" ng-repeat="todo in user.tasks"  ng-if="todo.day == 'monday'" id="{{todo._id}}" ><input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}</li>
+                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-class="{done: todo.done}"  ng-if="todo.day == 'monday'" id="{{todo._id}}" ><input type="checkbox" ng-click="doneTodo(todo._id)" ng-checked="todo.done" > {{ todo.text }}</li>
                 </ul>
 
        </div>
@@ -40,7 +40,7 @@
        	<h2>Tuesday</h2>
             
                 <ul class="todo-queue" id="tuesday" sortable>
-                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-if="todo.day == 'tuesday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}</li>
+                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-class="{done: todo.done}" ng-if="todo.day == 'tuesday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="doneTodo(todo._id)" ng-checked="todo.done" > {{ todo.text }}</li>
                 </ul>
                  
        </div>
@@ -51,7 +51,7 @@
        	<h2>Wednesday</h2>
             
                 <ul class="todo-queue" id="wednesday" sortable>
-                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-if="todo.day == 'wednesday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}</li>
+                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-class="{done: todo.done}" ng-if="todo.day == 'wednesday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="doneTodo(todo._id)" ng-checked="todo.done"> {{ todo.text }}</li>
                 </ul>
                  
        </div>
@@ -62,7 +62,7 @@
 		<h2>Thursday</h2>
             
                 <ul class="todo-queue" id="thursday" sortable>
-                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-if="todo.day == 'thursday'"   id="{{todo._id}}" ><input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}</li>
+                	<li class="queue-item" ng-repeat="todo in user.tasks" ng-class="{done: todo.done}" ng-if="todo.day == 'thursday'"   id="{{todo._id}}" ><input type="checkbox" ng-click="doneTodo(todo._id)" ng-checked="todo.done"> {{ todo.text }}</li>
                 </ul>
                    
        </div> 
@@ -73,7 +73,7 @@
 		<h2>Friday</h2>
            
                 <ul class="todo-queue" sortable>
-                	<li class="queue-item" id="friday"  ng-repeat="todo in user.tasks " ng-if="todo.day == 'friday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}</li>
+                	<li class="queue-item" id="friday"  ng-repeat="todo in user.tasks " ng-class="{done: todo.done}" ng-if="todo.day == 'friday'"  id="{{todo._id}}" ><input type="checkbox" ng-click="doneTodo(todo._id)" ng-checked="todo.done"> {{ todo.text }}</li>
                 </ul>
                  
        </div>    
