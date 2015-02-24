@@ -108,7 +108,6 @@ app.post('/login', passport.authenticate('local-login', {
 	app.post('/api/users/:user_id', isLoggedIn, function(req, res) {
 	 
 	 var todoArray = req.body.tasks;
-	 var todoId = req.body.todoId;
 
 		 for (i=0; i<todoArray.length;i++){
 			todoArray[i] =  mongoose.Types.ObjectId(todoArray[i])
@@ -161,10 +160,13 @@ app.post('/login', passport.authenticate('local-login', {
 		
 		if (req.body.pull){
 			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
-			function(err,  user){res.json(user);})
+			function(err,  user){
+				Todo.update({_id: req.params.todo_id},
+			 { $set: req.body }, function(err, doc){ res.send(200)})
+				})
 			return;
 		} 
-			console.log('true')
+			
 
 			Todo.update({_id: req.params.todo_id},
 			 { $set: req.body }, function(err, doc){ res.send(200)})
