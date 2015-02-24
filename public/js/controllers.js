@@ -54,6 +54,8 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
+		
+		
 		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || ""}).success(function(err, data){
 			
 			$('#' + newUserId + ' li').each(function(index, element) {
@@ -65,7 +67,7 @@ angular.module('milesCommandCenter.controllers', [])
 		.success(function(error, data){
 			
 			 milesAPIservice.getTeam().success(function (res) {
-					$scope.users = res;
+				
 					$scope.socket.emit('send', { message: res});
 	 			});
 
@@ -205,6 +207,8 @@ angular.module('milesCommandCenter.controllers', [])
  **********************************************************************/
 .controller('loginController', function($scope, $rootScope, $http, $location) {
   // This object will be filled by the form
+  
+
   $scope.user = {};
 $scope.pageClass = 'page-login'
   // Register the login() function

@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Oxygen:400,700,300);
 
-body{margin:0; padding:0; font-family: 'Oxygen', sans-serif; }
+body{margin:0; padding:0; font-family: 'Oxygen', sans-serif; background:#173b62; }
 input, textarea{font-family: 'Oxygen', sans-serif;}
 /*======================
 Fonts
@@ -20,11 +20,11 @@ Home
 Dashboard
 =======================*/
 
-.header{background:#3E606F;}
+.header{background:#0e2846;}
 .header h1{color:#fff; font-weight:200; font-size:2em}
-.todo-queue{ background:#193441; margin:0; padding:10px; border-radius: 0 0 8px 8px; }
+.todo-queue{ background:#275482; margin:0; padding:10px; border-radius: 0 0 8px 8px; }
 
-.todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#fff; color:#193441; border-radius:3px; box-shadow: 2px 2px 1px #CCC;}
+.todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#3b6897; color:#fff; border-radius:6px; }
 .todo-queue li span:first-child{cursor:pointer;}
 .todo-queue li.ui-sortable-placeholder{background:#3E606F; box-shadow:none;}
 
@@ -34,7 +34,7 @@ h2.queue{color:#fff;}
 .nav li{ display:inline-block; padding:0 20px; text-align:right; color:#fff; font-size:1.1em;}
 .nav li:last-child{padding-right:0;}
 .nav li a{color:#fff;}
-.right-sidebar {background: #193441; position: fixed; height: 100%; width: 300px; z-index: 1000; right:0;
+.right-sidebar {background: #275482; position: absolute; height: 100%; width: 300px; z-index: 1000; right:0;
 }
 
 
@@ -44,7 +44,7 @@ h2.queue{color:#fff;}
 .form-section{margin:20px 0;}
 form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cursor:pointer}
 
-.users h3{padding:20px; background:#3E606F; margin:0; border-radius: 8px 8px 0 0;}
+.users h3{padding:20px; background:#275482; margin:0; border-radius: 8px 8px 0 0;}
 .users h3 a{font-weight:normal; text-decoration:none; color:#FCFFF5;}
 
 .delete a{ color:red; font-size:1.2em; font-weight:bold; padding:0 5px; text-decoration:none; float:right;}
