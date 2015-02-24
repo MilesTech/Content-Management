@@ -65,7 +65,7 @@ angular.module('milesCommandCenter.controllers', [])
 		.success(function(error, data){
 			
 			 milesAPIservice.getTeam().success(function (res) {
-					$scope.users = res;
+				
 					$scope.socket.emit('send', { message: res});
 	 			});
 
