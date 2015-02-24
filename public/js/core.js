@@ -86,6 +86,13 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
           loggedin: checkLoggedin
         }
 	  })
+	   .when("/account/:userid", {
+	  templateUrl: "/views/account.html", 
+	  controller: "accountController",
+	  resolve: {
+          loggedin: checkLoggedin
+        }
+	  })
 	  
 	  $locationProvider.html5Mode(true);
 	  

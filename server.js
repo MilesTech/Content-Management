@@ -36,9 +36,16 @@ app.use(session({ secret: 'Miles Tech' }));
 app.set('port', (process.env.PORT || 3000));
 
 
-var AWS_ACCESS_KEY = process.env.AWSAccessKey;
+/*var AWS_ACCESS_KEY = process.env.AWSAccessKey;
 var AWS_SECRET_KEY = process.env.AWSSecretKey;
-var S3_BUCKET = process.env.S3BucketName
+var S3_BUCKET = process.env.S3BucketName;
+
+*/
+
+var AWS_ACCESS_KEY = secrets.AWSAccessKey();
+var AWS_SECRET_KEY = secrets.AWSSecretKey();
+var S3_BUCKET = secrets.S3BucketName();
+
 
 
 
@@ -58,11 +65,6 @@ onFileUploadComplete: function (file) {
 }));*/
 
 
-require('./config/passport')(passport);
-require('./routes.js')(app, passport); 
-
-
-
 app.get('/sign_s3', function(req, res){
     aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
     var s3 = new aws.S3();
@@ -78,15 +80,24 @@ app.get('/sign_s3', function(req, res){
             console.log(err);
         }
         else{
+		
             var return_data = {
                 signed_request: data,
                 url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.s3_object_name
             };
+			
             res.write(JSON.stringify(return_data));
             res.end();
         }
     });
 });
+
+require('./config/passport')(passport);
+require('./routes.js')(app, passport); 
+
+
+
+
 
 
 

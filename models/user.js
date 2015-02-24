@@ -8,6 +8,7 @@ var User = mongoose.Schema({
 	firstname: String,
 	lastname: String,
 	role: String,
+	user_img: String,
 	tasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}]
 });
 

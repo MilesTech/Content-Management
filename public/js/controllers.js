@@ -18,7 +18,7 @@ angular.module('milesCommandCenter.controllers', [])
  **********************************************************************/
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
-     $scope.formData = {};
+    $scope.formData = {};
 	$scope.socket = io.connect('http://localhost:3000');
 //Initial Load - Get Data	
 
@@ -234,22 +234,75 @@ $scope.pageClass = 'page-login'
 
 
 /**********************************************************************
- * Admin controller
+ * Account controller
  **********************************************************************/
-.controller('AdminController', function($scope, $http) {
+.controller('accountController', function($scope, $http, $routeParams, milesAPIservice) {
   // List of users got from the server
-  $scope.users = [];
-
-  // Fill the array to display it in the page
-  $http.get('/users').success(function(users){
-    for (var i in users)
-      $scope.users.push(users[i]);
-  });
+  $scope.user=[];
+  
+  
+   $scope.s3Upload = function(){
+	var fullPath = document.getElementById('files').value;
+	if (fullPath) {
+		var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+		var filename = fullPath.substring(startIndex);
+			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+				filename = filename.substring(1);
+			}
+	}
+	
+	var status_elem = document.getElementById("status");
+    var url_elem = document.getElementById("avatar_url");
+    var preview_elem = document.getElementById("preview");
+    var s3upload = new S3Upload({
+        file_dom_selector: 'files',
+        s3_sign_put_url: '/sign_s3',
+		s3_object_name: filename,
+        onProgress: function(percent, message) {
+            status_elem.innerHTML = 'Upload progress: ' + percent + '% ' + message;
+        },
+        onFinishS3Put: function(public_url) {
+            status_elem.innerHTML = 'Upload completed. Uploaded to: '+ public_url;
+			$scope.user.user_img = public_url;
+            preview_elem.innerHTML = '<img src="'+public_url+'" style="width:300px;" />';
+        },
+        onError: function(status) {
+            status_elem.innerHTML = 'Upload error: ' + status;
+        }
+    }); 
+		 
+	 }
+	 
+  
+milesAPIservice.getUser($routeParams.userid).success(function (res) {
+	 	$scope.user = res;
+	 });
+	 
+	 
+	 $scope.updateUser = function(){
+		
+		 $http.post('/api/account/' + $routeParams.userid , $scope.user)
+            .success(function(data) {
+                 console.log($scope.user)
+                $scope.user = data;
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+	
+	 }
+	
+	 
+	 
+	
+  
+  
+  
 })
 
 
 /**********************************************************************
- * Admin controller
+ * Logout controller
  **********************************************************************/
 .controller('logoutController', function($scope, $http, $location) {
   // Fill the array to display it in the page

@@ -118,9 +118,22 @@ app.post('/login', passport.authenticate('local-login', {
 
 			res.send(200)
 		});
+	
+    });
+	
+		app.post('/api/account/:user_id', isLoggedIn, function(req, res) {
 
-	 
-		
+		 User.findByIdAndUpdate(req.params.user_id, {$set: {
+			firstname : req.body.firstname,
+			lastname : req.body.lastname,
+			user_img : req.body.user_img
+			 
+			 }}, 
+			function(err, user){
+				
+			res.json(user)
+		});
+	
     });
 
 	
@@ -201,7 +214,7 @@ app.post('/login', passport.authenticate('local-login', {
 //==================================================================	
 	
 		 app.get('/api/session', function(req, res) {
-        res.send({user_firstname: req.user.firstname, user_lastname: req.user.lastname, user_role: req.user.role, user_email: req.user.email})
+        res.send({user_firstname: req.user.firstname, user_lastname: req.user.lastname, user_role: req.user.role, user_email: req.user.email, user_id: req.user._id})
 		
     });
 	
