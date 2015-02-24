@@ -11,11 +11,11 @@
 
     <div class="right-sidebar">
     	<div class="row">
-    		<div class="large-12 columns" drop-target>
+    		<div class="large-12 columns" >
             <h2 class="queue">{{ user.firstname }}'s Pending Tasks</h2>
            
             <ul sortable class="todo-queue">
-              <li class="queue-item todo" ng-repeat="todo in user.tasks" ng-if="!todo.day"  drag id="{{todo._id}}"> {{ todo.text }}</li>
+              <li class="queue-item" ng-repeat="todo in user.tasks" ng-if="!todo.day" id="{{todo._id}}"> {{ todo.text }}</li>
                 </ul>
         
     	</div>
