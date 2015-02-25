@@ -5,6 +5,19 @@ angular.module('milesCommandCenter.controllers', [])
  **********************************************************************/
 .controller('mainController', function($scope, $http, milesAPIservice) {
 
+ $scope.formData = {};
+    // when landing on the page, get all todos and show them
+	
+	$scope.createUser = function(){
+	$http.post('/signup', $scope.formData)
+            .success(function(data) {
+                $scope.formData = {}; // clear the form so our user is ready to enter another
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+	}
 
 
     // delete a todo after checking it
@@ -240,6 +253,11 @@ $scope.pageClass = 'page-login'
   // List of users got from the server
   $scope.user=[];
   
+  milesAPIservice.getUserAccount().success(function (res) {
+	 	$scope.user = res;
+	 });
+	 
+  
   
    $scope.s3Upload = function(){
 	var fullPath = document.getElementById('files').value;
@@ -274,16 +292,14 @@ $scope.pageClass = 'page-login'
 	 }
 	 
   
-milesAPIservice.getUser($routeParams.userid).success(function (res) {
-	 	$scope.user = res;
-	 });
-	 
+
 	 
 	 $scope.updateUser = function(){
+		$scope.user.user_img = $('#preview').children('img').attr('src');
 		
-		 $http.post('/api/account/' + $routeParams.userid , $scope.user)
+		 $http.post('/api/account/' + $scope.user._id, $scope.user)
             .success(function(data) {
-                 console.log($scope.user)
+                 
                 $scope.user = data;
             })
             .error(function(data) {

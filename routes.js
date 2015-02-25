@@ -36,8 +36,8 @@ function isLoggedIn(req, res, next) {
 
 
    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/dashboard', // redirect to the secure profile section
-        failureRedirect : '/register'
+        successRedirect : '/account', // redirect to the secure profile section
+        failureRedirect : '/'
     }));
 
 
@@ -81,7 +81,7 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	
 	app.get('/api/users/:user_id', function(req, res) {
-	 
+	 console.log(req.session)
        User.findById(req.params.user_id)
 	   .populate('tasks')
 	   .exec(function(err, doc){
@@ -105,6 +105,9 @@ app.post('/login', passport.authenticate('local-login', {
 
 	
 	
+	
+	
+	
 	app.post('/api/users/:user_id', isLoggedIn, function(req, res) {
 	 
 	 var todoArray = req.body.tasks;
@@ -121,8 +124,22 @@ app.post('/login', passport.authenticate('local-login', {
 	
     });
 	
-		app.post('/api/account/:user_id', isLoggedIn, function(req, res) {
-
+	
+	
+	
+	app.get('/api/account', function(req, res) {
+	
+       User.findById(req.session.passport.user)
+	   .populate('tasks')
+	   .exec(function(err, doc){
+		  res.json(doc);
+	   });
+		
+    });
+	
+	
+		app.post('/api/account/:user_id', isLoggedIn, function(req, res) {		
+			
 		 User.findByIdAndUpdate(req.params.user_id, {$set: {
 			firstname : req.body.firstname,
 			lastname : req.body.lastname,

@@ -86,7 +86,7 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
           loggedin: checkLoggedin
         }
 	  })
-	   .when("/account/:userid", {
+	   .when("/account", {
 	  templateUrl: "/views/account.html", 
 	  controller: "accountController",
 	  resolve: {
