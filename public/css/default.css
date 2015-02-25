@@ -2,6 +2,8 @@
 
 body{margin:0; padding:0; font-family: 'Oxygen', sans-serif; background:#173b62; }
 input, textarea{font-family: 'Oxygen', sans-serif;}
+
+p{color:#fff;}
 /*======================
 Fonts
 =======================*/
@@ -12,10 +14,12 @@ h1{font-size:3em; font-weight:200;}
 /*======================
 Home
 =======================*/
-.home-btn{background: #3E606F; border:none; color:#fff; padding:20px 35px; display:inline-block; text-align:center; cursor:pointer; font-size:1.5em; transition:all .2s ease; text-decoration:none; font-weight:200;}
-.home-btn:hover{background:#193441;}
-
-
+.home-btn{background: #129fdd; border:none; color:#fff; padding:8px 15px; display:inline-block; text-align:center; cursor:pointer; font-size:1em; transition:all .2s ease; text-decoration:none; font-weight:200; float:right; margin-top:10px; border-radius:5px;}
+.home-btn:hover{background:#fff; color:#129fdd;}
+.user-signup{padding:30px; background:#275482; border-radius:10px; margin-top:30px; }
+.user-signup input, .user-signup select{width:100%; padding:10px; background:#3b6897; color:#fff; border-radius:5px; border:none;}
+.user-signup input[type="submit"]{background:#129fdd; cursor:pointer; transition:all .2s ease; font-weight:bold;}
+.user-signup input[type="submit"]:hover{background:#fff; color:#129fdd}
 /*======================
 Dashboard
 =======================*/
@@ -26,7 +30,8 @@ Dashboard
 
 .todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#3b6897; color:#fff; border-radius:6px; }
 .todo-queue li span:first-child{cursor:pointer;}
-.todo-queue li.ui-sortable-placeholder{background:#3E606F; box-shadow:none;}
+.todo-queue li.ui-sortable-placeholder{background:#173b62; box-shadow:none;}
+[class*="column"] + [class*="column"]:last-child{float:left;}
 
 h2.queue{color:#fff;}
 
@@ -44,26 +49,33 @@ h2.queue{color:#fff;}
 .form-section{margin:20px 0;}
 form button{background: #76AC23; padding:10px 30px; color:#fff; border:none; cursor:pointer}
 
-.users h3{padding:20px; background:#275482; margin:0; border-radius: 8px 8px 0 0;}
-.users h3 a{font-weight:normal; text-decoration:none; color:#FCFFF5;}
+.users h3{padding:40px 20px; background:#275482; margin:0; border-radius: 8px 8px 0 0; background-repeat:no-repeat; background-position:center;}
+.users h3 a{font-weight:700; text-decoration:none; color:#FCFFF5; font-size:1.2em;}
 
 .delete a{ color:red; font-size:1.2em; font-weight:bold; padding:0 5px; text-decoration:none; float:right;}
 
 
+/*======================
+Account
+=======================*/
+.user-info{background:#fff; border-radius:8px; margin-top:20px; padding:20px 40px;}
+.user-info input[type="text"]{background:#597a96; color:#fff; border:none; padding:10px; border-radius:5px; }
 
 /*======================
 Login
 =======================*/
 
-.login{padding:20px; border:2px solid #ccc; border-radius:0 0 8px 8px;}
-.login label{display:block;}
-.login input{width:100%; padding:8px; border:1px solid #ccc; border-radius:5px}
-.login div{margin:10px 0;}
-.login input[type="submit"]{background: #3E606F; border:none; color:#fff; padding:10px 25px; display:inline-block; text-align:center; cursor:pointer; font-size:1.5em; transition:all .2s ease;}
-.login input[type="submit"]:hover{background:#193441;}
+.login{padding:30px; background:#275482; border-radius:10px; margin-top:40px;}
+
+
+
+.login input{width:100%; padding:10px; background:#3b6897; color:#fff; border-radius:5px; border:none;}
+.login input[type="submit"]{background:#129fdd; cursor:pointer; transition:all .2s ease; font-weight:bold;}
+.login input[type="submit"]:hover{background:#fff; color:#129fdd}
+
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{background:none;}
-.page-login{background:#fff; height:100%; width:100%;}
-.page-login h3{padding:20px; background:#3E606F; margin:50px 0 0 0; border-radius: 8px 8px 0 0; color:#fff; font-size:2em; font-weight:200;}
+.page-login{ height:100%; width:100%;}
+.page-login h3{ color:#fff; font-size:2em; font-weight:200; }
 
 /*======================
 User Dashboard
@@ -79,7 +91,7 @@ User Dashboard
 Task Screen Popup
 =======================*/
 .task-screen form{width:90%; margin:auto;}
-.task-screen input, .task-screen textarea{display:block; padding:5px; margin:10px 0; width:100%; font-size:1.1em;}
+ input, textarea{display:block; padding:5px; margin:10px 0; width:100%; font-size:1.1em;}
 .task-screen textarea{height:200px;}
 
 
