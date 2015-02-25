@@ -5,25 +5,25 @@
     <center><h1>Task Editing Screen</h1></center>
     <form>
     <label>Task Name
-        <input type="text" value="{{todo.text}}" />
+        <input type="text"  ng-model="todo.text"  />
     </label>  
         <div class="row">
             <div class="large-6 columns">
             <label>Due Date
-            	<input type="date" placeholder="date"  />
+            	<input type="date"  ng-model="todo.due"  />
                </label> 
             </div>
              <div class="large-6 columns">
              <label>Approximate Hours
-            	<input type="number" placeholder="Hours" value="{{todo.hours}}"  />
+            	<input type="number" placeholder="Hours"  ng-model="todo.hours"   />
               </label>
             </div>
         </div>
         
         <span>{{todo.type}}</span>
         <br>
-        <textarea>{{todo.notes}}</textarea>
-        <input type="submit" value="Save" />
+        <textarea ng-model="todo.notes">{{todo.notes}}</textarea>
+        <input type="submit" value="Save" ng-click="saveTask(todo._id)" />
     </form>
  </div>
   </div>      

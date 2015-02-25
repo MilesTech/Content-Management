@@ -10,7 +10,7 @@
            <ul class="nav">
           <li> Welcome, {{session.user_firstname}} {{session.user_lastname}}</li>
           <li><a href="/account">My Account</a></li>
-          <li><a href="/logout">logout</a></li>
+          <li><a href="/logout">Logout</a></li>
            </ul> 
         </div>
         </div>
@@ -25,18 +25,46 @@
             <ul sortable class="todo-queue">
               <li class="checkbox todo queue-item" ng-repeat="todo in todos"  id="{{todo._id}}"><span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span>
                
-                   <!-- <label>
-                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-                    </label>
-                    <p>{{ todo.notes }}</p>-->
+              
                 </li>
                 
                </ul> 
-          
+          <a href="#" class="add-todo-btn" ng-click="addTodoSlide()">Add Task</a>
             </div>
     	</div>
     
+    
     </div>
+    
+   <div class="add-todo">
+          <div id="todo-form" class="row">
+          <h2>Add New Task</h2>
+                <form class="large-12 columns">
+           
+        
+        <input type="text" placeholder="Task Title" ng-model="formData.text" class="task-input">
+             
+            <select class="task-input" ng-model="formData.type">
+                   		<option value="" selected disabled>Task Type</option>
+                       <option value="mockup">Mockup</option>
+                       <option value="qa">QA</option>
+                       <option value="development">Development</option>
+                       <option value="maintenance">Maintenance</option>
+                       <option value="content">Content Implementation</option>
+                   </select>
+            <textarea ng-model="formData.notes" class="task-input" placeholder="Task Notes"></textarea>
+
+             <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>       
+
+                </form>
+                
+                
+            </div>
+   
+   </div> 
+   
+   
+    
 
 <div class="main-dashboard">
 
@@ -47,12 +75,15 @@
         <div class="large-12 columns">
             <div class="row todo-clear">
             	<div class="users large-4 columns" ng-repeat="user in users">
-                        <h3 style="background-image:url({{user.user_img}}); background-size:cover;"><a href="/user/{{user._id}}">{{ user.firstname }} {{ user.lastname }}</a></h3>
+                        <h3 style="background-image:url({{user.user_img}}); background-size:cover;"><a href="/user/{{user._id}}">{{ user.firstname }} {{ user.lastname }}</a><br> <span>Hours - {{user.hours}}</span></h3>
                         
                     <ul class="todo-queue" id="{{user._id}}" sortable >
-                        <li class="queue-item" ng-repeat="todo in user.tasks" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
+                        <li ng-class="{done: todo.done}" class="queue-item" ng-repeat="todo in user.tasks" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
+                        <span class="task-type">{{todo.type}}</span>
+                        <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
                             <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 
-                            <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
+                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM-dd-yyyy'}}</span>
+                            
                         </li>                         
                     </ul>
               
@@ -66,51 +97,7 @@
         </div>
 
         <!-- FORM TO CREATE TODOS -->
-        <div id="todo-form" class="row">
-          
-                <form class="large-12 columns">
-         
-	<div class="row">
-    <div class="large-8 columns">
-        <div class="form-section">
-        <label> Task Name
-                            <input type="text" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text" class="task-input">
-          </label>          
-              </div>  
-             
-               <div class="form-section">
-                <label> Task Type 
-                   <select class="task-input" ng-model="formData.type">
-                       <option value="mockup">Mockup</option>
-                       <option value="qa">QA</option>
-                       <option value="development">Development</option>
-                       <option value="maintenance">Maintenance</option>
-                       <option value="content">Content Implementation</option>
-                   </select>
-                  </label> 
-               </div>            
-                        
-         <div class="form-section">    
-         <label> Notes           
-                <textarea ng-model="formData.notes" class="task-input"></textarea>
-            </label>            
-          </div>  
-          
-          <div class="form-section">   
-             <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>           </div>
-              
-</div>
-<div class="large-4 columns">
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
-                 
-                    </div>
-                    
-                    
-                    </div>
-                </form>
-                
-                
-            </div>
+ 
    
 
     </div>

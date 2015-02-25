@@ -3,16 +3,15 @@ angular.module('milesCommandCenter.controllers', [])
 /**********************************************************************
  * Main controller
  **********************************************************************/
-.controller('mainController', function($scope, $http, milesAPIservice) {
+.controller('mainController', function($scope, $http, milesAPIservice, $location) {
 
  $scope.formData = {};
-    // when landing on the page, get all todos and show them
 	
 	$scope.createUser = function(){
 	$http.post('/signup', $scope.formData)
             .success(function(data) {
                 $scope.formData = {}; // clear the form so our user is ready to enter another
-                console.log(data);
+                $location.url('/account');
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -20,7 +19,6 @@ angular.module('milesCommandCenter.controllers', [])
 	}
 
 
-    // delete a todo after checking it
   
 
 })
@@ -32,10 +30,10 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
     $scope.formData = {};
-	$scope.socket = io.connect('http://localhost:3000');
+	$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/');
+	
+	
 //Initial Load - Get Data	
-
-
 	milesAPIservice.getTodos().success(function (res) {
 	 	$scope.todos = res;
 	 });
@@ -47,14 +45,36 @@ angular.module('milesCommandCenter.controllers', [])
 	 	$scope.session = res;
 	 });
 	 
-	 
+//Setup Socket IO	 
 	 $scope.socket.on('message', function (data) {
 		 $scope.$apply(function(){
-			     $scope.users = data.message
+			     $scope.users = data.message;
+				 
 		 })
    
     });
-	 
+	
+
+ $scope.socket.on('notification', function (data) {
+		 
+			if (Notification.permission === "granted") {
+				var notification = new Notification("Made Update!");
+			}
+			else if (Notification.permission !== 'denied') {
+				Notification.requestPermission(function (permission) {
+				  if (permission === "granted") {
+					var notification = new Notification("Made Update!");
+				  }
+				});
+			}
+		
+   
+    });
+
+
+
+
+//Opens Dialog Bpx	 
 	$scope.clickToOpen = function (id) {
 		$scope.todoid = id
         ngDialog.open({ 
@@ -63,24 +83,28 @@ angular.module('milesCommandCenter.controllers', [])
 			scope: $scope
 		});
     };
+
+//Add or remove slide class to Todo generator	
+	$scope.addTodoSlide = function(){	
+		$('.add-todo').addClass('activate');	
+	}
 	
 	
+//Drag and Drop Function	
 	$scope.moveToBox = function(todoid, newUserId) {
 		var todoArray=[];
 		
-		
-		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || ""}).success(function(err, data){
+		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || "", working: false}).success(function(err, data){
+			
+			
 			
 			$('#' + newUserId + ' li').each(function(index, element) {
             todoArray.push($(this).attr('id'));
         });
 		
-		
 		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
-		.success(function(error, data){
-			
+		.success(function(err, data){		
 			 milesAPIservice.getTeam().success(function (res) {
-				
 					$scope.socket.emit('send', { message: res});
 	 			});
 
@@ -123,7 +147,8 @@ angular.module('milesCommandCenter.controllers', [])
             .success(function(data) {
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.todos = data;
-                console.log(data);
+				$('.activate').removeClass('activate');
+               
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -156,36 +181,83 @@ angular.module('milesCommandCenter.controllers', [])
  **********************************************************************/
 
 
-.controller('userController', function($scope, $routeParams, $http, milesAPIservice) {
+.controller('userController', function($scope, $routeParams, $http, milesAPIservice, $animate) {
+	
+	
 	//Scope Declarations
 	$scope.pageClass = 'page-user';
 	
+	$animate.enabled(false, $('.todo-queue'));
+	
+	console.log($animate)
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
+		
 	 	$scope.user = res;
 	 });
+	 
+//Setup Socket IO	
+$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/'); 
+
 	
-	$scope.moveToBox = function(todoId, day) {
-		if(!day) day="";
-		 $http.post('/api/todos/' + todoId, {day: day})
-		 .success(function(data){
-			milesAPIservice.getUser($routeParams.userid).success(function (res) {
-				$scope.user = {};
+	$scope.moveToBox = function(todoId, working) {
+		
+		if(!working)
+		{ working=false;}
+		else {working=true}
+		
+		 $http.post('/api/todos/' + todoId, {working: working})
+			 .success(function(data){
+				milesAPIservice.getUser($routeParams.userid).success(function (res) {		
+					$scope.user = res;					
+
+					$scope.updateUserHours(res);
+	});
 			 });
-		 });
 	}
 	
-	$scope.doneTodo = function(id){
+	
+	
+$scope.doneTodo = function(id){
 		var done = false;
+		
+		
 		if($('#' + id + " input").is(':checked')){
 			done= true;
-		}
+			$('#' + id).addClass('done');
+		} else {$('#' + id).removeClass('done'); }
 		
-		$http.post('/api/todos/' + id, {done: done}).success(function(err, data){console.log(err)});
-			milesAPIservice.getUser($routeParams.userid).success(function (res) {
-	 	$scope.user = res;
-	 });
+
+$http.post('/api/todos/' + id, {done: done}).success(function(err, data){
+		
+	milesAPIservice.getUser($routeParams.userid).success(function (res) {
+			$scope.user = res;
+
+			$scope.updateUserHours(res);
+	});
+});	
+		
+	}
+	
+	
+	
+	$scope.updateUserHours = function(res){
+		var totalhours = 0;
+		for(i=0; i< res.tasks.length; i++){
+			if(res.tasks[i].working && !res.tasks[i].done && res.tasks[i].hours) {
+				totalhours += 	res.tasks[i].hours;
+			}
+		}
+
+		$http.post('/api/account/' + $routeParams.userid,{hours: totalhours})
+		.success(function(user){
+			
+				milesAPIservice.getTeam().success(function (team) {
+						$scope.socket.emit('send', { message: team});
+				});
+		})
 	}
   
+
 
 })
 
@@ -335,9 +407,20 @@ $scope.pageClass = 'page-login'
 .controller('taskController', function($scope, $http, $location, milesAPIservice) {
 
 	milesAPIservice.getTask($scope.$parent.todoid).success(function (res) {
-
 	 	$scope.todo = res;
 	 });
+	 
+	 
+	 $scope.saveTask = function(id){
+		$http.post('/api/todos/' + id, $scope.todo).success(function(err, data){console.log(err)});
+		 		milesAPIservice.getTeam().success(function (res) {
+					$scope.socket.emit('send', { message: res});
+					$scope.closeThisDialog();
+	 			});
+		 
+	 }
+	 
+	 
 });
 
 

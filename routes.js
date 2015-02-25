@@ -37,7 +37,6 @@ function isLoggedIn(req, res, next) {
 
    app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/account', // redirect to the secure profile section
-        failureRedirect : '/'
     }));
 
 
@@ -81,7 +80,6 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	
 	app.get('/api/users/:user_id', function(req, res) {
-	 console.log(req.session)
        User.findById(req.params.user_id)
 	   .populate('tasks')
 	   .exec(function(err, doc){
@@ -115,11 +113,11 @@ app.post('/login', passport.authenticate('local-login', {
 		 for (i=0; i<todoArray.length;i++){
 			todoArray[i] =  mongoose.Types.ObjectId(todoArray[i])
 		 }
-		 
-		 User.update({_id:req.params.user_id}, {$set: {tasks: todoArray}}, 
+		
+		 User.findByIdAndUpdate(req.params.user_id, {$set: {tasks: todoArray}}, 
 			function(err, user){
 
-			res.send(200)
+			res.json(user)
 		});
 	
     });
@@ -140,12 +138,7 @@ app.post('/login', passport.authenticate('local-login', {
 	
 		app.post('/api/account/:user_id', isLoggedIn, function(req, res) {		
 			
-		 User.findByIdAndUpdate(req.params.user_id, {$set: {
-			firstname : req.body.firstname,
-			lastname : req.body.lastname,
-			user_img : req.body.user_img
-			 
-			 }}, 
+		 User.findByIdAndUpdate(req.params.user_id, {$set: req.body}, 
 			function(err, user){
 				
 			res.json(user)
@@ -162,6 +155,7 @@ app.post('/login', passport.authenticate('local-login', {
 			type : req.body.type,
 			hours : req.body.hours,
 			assigned : "",
+			working : false,
             done : false
         }, function(err, todo) {
             if (err)
@@ -198,8 +192,8 @@ app.post('/login', passport.authenticate('local-login', {
 		} 
 			
 
-			Todo.update({_id: req.params.todo_id},
-			 { $set: req.body }, function(err, doc){ res.send(200)})
+			Todo.findByIdAndUpdate(req.params.todo_id,
+			 { $set: req.body }, function(err, doc){ res.json(doc)})
 			
 				
     });
