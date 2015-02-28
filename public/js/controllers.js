@@ -104,18 +104,19 @@ angular.module('milesCommandCenter.controllers', [])
 		
 		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
 		.success(function(err, data){	
-					
-			 milesAPIservice.getTeam().success(function (res) {
-					$scope.socket.emit('send', { message: res, user: $scope.session, newuser: newUserId});
-	 			});
-
+		
+		if(oldUserId){
+	milesAPIservice.getUser(oldUserId).success(function (res) {
+	 	$scope.updateUserHours(res, newUserId)
+	 });	
+		} else {
+			
+			$scope.socket.emit('send', { message: team, user: $scope.session, newuser: newUserId});
+			
+		}
 			});
 			
-				if(oldUserId){
-	milesAPIservice.getUser(oldUserId).success(function (res) {
-	 	$scope.updateUserHours(res)
-	 });	
-		}
+				
 			
 			
 			});
@@ -164,9 +165,17 @@ angular.module('milesCommandCenter.controllers', [])
 	
 
     // delete a todo after checking it
-    $scope.deleteTodo = function(id) {
+    $scope.deleteTodo = function(id, user) {
 		var confirmed = confirm('Are you sure you want to delete this task?')
 		if(confirmed){
+			
+			var userid = $('#' + id).parent('ul').attr('id')
+			
+			milesAPIservice.getUser(oldUserId).success(function (res) {
+	 				$scope.updateUserHours(res, userid)
+	 			});
+			
+			
 			$http.delete('/api/todos/' + id)
 				.success(function(data) {
 					$scope.todos = data;
@@ -182,7 +191,7 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	
 	
-	$scope.updateUserHours = function(res){
+	$scope.updateUserHours = function(res, newUserId){
 		var totalhours = 0;
 		for(i=0; i< res.tasks.length; i++){
 			if(res.tasks[i].working && !res.tasks[i].done && res.tasks[i].hours) {
@@ -191,10 +200,9 @@ angular.module('milesCommandCenter.controllers', [])
 		}
 
 		$http.post('/api/account/' + res._id,{hours: totalhours})
-		.success(function(user){
-			
-				milesAPIservice.getTeam().success(function (team) {
-						
+		.success(function(user){			
+				milesAPIservice.getTeam().success(function (team) {	
+				$scope.socket.emit('send', { message: team, user: $scope.session, newuser: newUserId});	
 				});
 		})
 	}
@@ -280,7 +288,7 @@ $http.post('/api/todos/' + id, {done: done}).success(function(err, data){
 		.success(function(user){
 			
 				milesAPIservice.getTeam().success(function (team) {
-						$scope.socket.emit('send', { message: team});
+						$scope.socket.emit('send', { message: team, user: $scope.session, newuser: ""});
 				});
 		})
 	}
