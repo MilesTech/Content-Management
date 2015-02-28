@@ -30,7 +30,7 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
     $scope.formData = {};
-	$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/');
+	$scope.socket = io.connect('http://localhost:3000/');
 	
 	
 //Initial Load - Get Data	
@@ -49,27 +49,25 @@ angular.module('milesCommandCenter.controllers', [])
 	 $scope.socket.on('message', function (data) {
 		 $scope.$apply(function(){
 			     $scope.users = data.message;
-				 
+								 
 		 })
+		 
+		
+		 if (Notification.permission === "granted" && $scope.session.user_id != data.user.user_id && $scope.session.user_id == data.newuser) {
+			  console.log(data.user)
+				var notification = new Notification(data.user.user_firstname + " Made An Update!");
+			}
+			else if (Notification.permission !== 'denied' && $scope.session.user_id != data.user.user_id && $scope.session.user_id == data.newuser) {
+				Notification.requestPermission(function (permission) {
+				  if (permission === "granted") {
+					var notification = new Notification(data.user.user_firstname + "Made Update!");
+				  }
+				});
+			}
    
     });
 	
 
- $scope.socket.on('notification', function (data) {
-		 
-			if (Notification.permission === "granted") {
-				var notification = new Notification("Made Update!");
-			}
-			else if (Notification.permission !== 'denied') {
-				Notification.requestPermission(function (permission) {
-				  if (permission === "granted") {
-					var notification = new Notification("Made Update!");
-				  }
-				});
-			}
-		
-   
-    });
 
 
 
@@ -91,25 +89,33 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	
 //Drag and Drop Function	
-	$scope.moveToBox = function(todoid, newUserId) {
+	$scope.moveToBox = function(todoid, newUserId, oldUserId) {
 		var todoArray=[];
+		
+	
+		
 		
 		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || "", working: false}).success(function(err, data){
 			
 			
-			
-			$('#' + newUserId + ' li').each(function(index, element) {
+		$('#' + newUserId + ' li').each(function(index, element) {
             todoArray.push($(this).attr('id'));
         });
 		
 		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
-		.success(function(err, data){		
+		.success(function(err, data){	
+					
 			 milesAPIservice.getTeam().success(function (res) {
-					$scope.socket.emit('send', { message: res});
+					$scope.socket.emit('send', { message: res, user: $scope.session, newuser: newUserId});
 	 			});
 
 			});
 			
+				if(oldUserId){
+	milesAPIservice.getUser(oldUserId).success(function (res) {
+	 	$scope.updateUserHours(res)
+	 });	
+		}
 			
 			
 			});
@@ -173,6 +179,28 @@ angular.module('milesCommandCenter.controllers', [])
 		}
 			
 	}
+	
+	
+	
+	$scope.updateUserHours = function(res){
+		var totalhours = 0;
+		for(i=0; i< res.tasks.length; i++){
+			if(res.tasks[i].working && !res.tasks[i].done && res.tasks[i].hours) {
+				totalhours += 	res.tasks[i].hours;
+			}
+		}
+
+		$http.post('/api/account/' + res._id,{hours: totalhours})
+		.success(function(user){
+			
+				milesAPIservice.getTeam().success(function (team) {
+						
+				});
+		})
+	}
+	
+	
+	
 
 })
 
@@ -189,14 +217,14 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	$animate.enabled(false, $('.todo-queue'));
 	
-	console.log($animate)
+	
 	milesAPIservice.getUser($routeParams.userid).success(function (res) {
 		
 	 	$scope.user = res;
 	 });
 	 
 //Setup Socket IO	
-$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/'); 
+$scope.socket = io.connect('http://localhost:3000/'); 
 
 	
 	$scope.moveToBox = function(todoId, working) {
@@ -369,10 +397,16 @@ $scope.pageClass = 'page-login'
 	 $scope.updateUser = function(){
 		$scope.user.user_img = $('#preview').children('img').attr('src');
 		
-		 $http.post('/api/account/' + $scope.user._id, $scope.user)
+		console.log($scope.user)
+		 $http.post('/api/account/' + $scope.user._id, {
+		 firstname: $scope.user.firstname,
+		 lastname: $scope.user.lastname,
+		 user_img: $scope.user.user_img,
+		 })
             .success(function(data) {
                  
                 $scope.user = data;
+				alert("Account saved successfully")
             })
             .error(function(data) {
                 console.log('Error: ' + data);

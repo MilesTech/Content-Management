@@ -23,10 +23,16 @@
             <h2 class="queue">New Task Queue</h2>
             
             <ul sortable class="todo-queue">
-              <li class="checkbox todo queue-item" ng-repeat="todo in todos"  id="{{todo._id}}"><span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span>
-               
-              
-                </li>
+                     
+                
+                  <li ng-class="{done: todo.done}" class="queue-item" ng-repeat="todo in todos" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
+                        <span class="task-type">{{todo.type}}</span>
+                        <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
+                            <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 
+                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM-dd-yyyy'}}</span>
+                            
+                        </li>   
+                
                 
                </ul> 
           <a href="#" class="add-todo-btn" ng-click="addTodoSlide()">Add Task</a>
