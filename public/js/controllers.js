@@ -44,23 +44,26 @@ angular.module('milesCommandCenter.controllers', [])
 	  milesAPIservice.getCurrentUser().success(function (res) {
 	 	$scope.session = res;
 	 });
+
+
+
+
 	 
 //Setup Socket IO	 
 	 $scope.socket.on('message', function (data) {
 		 $scope.$apply(function(){
-			     $scope.users = data.message;
-								 
-		 })
+			     $scope.users = data.message;					 
+		 })		 
 		 
-		
+
 		 if (Notification.permission === "granted" && $scope.session.user_id != data.user.user_id && $scope.session.user_id == data.newuser) {
-			  console.log(data.user)
-				var notification = new Notification(data.user.user_firstname + " Made An Update!");
+			 
+				var notification = new Notification(data.user.user_firstname + " added " + data.taskname);
 			}
 			else if (Notification.permission !== 'denied' && $scope.session.user_id != data.user.user_id && $scope.session.user_id == data.newuser) {
 				Notification.requestPermission(function (permission) {
 				  if (permission === "granted") {
-					var notification = new Notification(data.user.user_firstname + "Made Update!");
+					var notification = new Notification(data.user.user_firstname + " added " + data.taskname);
 				  }
 				});
 			}
@@ -82,38 +85,40 @@ angular.module('milesCommandCenter.controllers', [])
 		});
     };
 
+
 //Add or remove slide class to Todo generator	
 	$scope.addTodoSlide = function(){	
 		$('.add-todo').addClass('activate');	
 	}
 	
+
 	
 //Drag and Drop Function	
 	$scope.moveToBox = function(todoid, newUserId, oldUserId) {
 		var todoArray=[];
 		
-	
+		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || "", working: false})
+			.success(function(err, data){
+
+				$('#' + newUserId + ' li').each(function(index, element) {
+					todoArray.push($(this).attr('id'));
+				});
 		
+				$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
+				.success(function(err, data){	
 		
-		$http.post('/api/todos/' + todoid, {pull: true, assigned: newUserId || "", working: false}).success(function(err, data){
 			
-			
-		$('#' + newUserId + ' li').each(function(index, element) {
-            todoArray.push($(this).attr('id'));
-        });
-		
-		$http.post('/api/users/' + newUserId, {tasks:todoArray, todoId: todoid})
-		.success(function(err, data){	
-		
-		if(oldUserId){
-	milesAPIservice.getUser(oldUserId).success(function (res) {
-	 	$scope.updateUserHours(res, newUserId)
-	 });	
-		} else {
-			
-			$scope.socket.emit('send', { message: team, user: $scope.session, newuser: newUserId});
-			
-		}
+							milesAPIservice.getUser(oldUserId).success(function (res) {
+								$scope.updateUserHours(res, newUserId)
+									.success(function(){
+										milesAPIservice.getTeam().success(function (team) {
+											$scope.socket.emit('send', { message: team, user: $scope.session, newuser: newUserId, taskname: $('#'+ todoid + " span:nth-child(3)").text()});
+										 });
+											
+									});
+								
+							 });	
+						
 			});
 			
 				
@@ -129,6 +134,12 @@ angular.module('milesCommandCenter.controllers', [])
 	}
 	
 	
+ 
+ 
+ 
+ 
+ 
+ 
  
     $scope.createTodo = function() {
 		
@@ -171,7 +182,7 @@ angular.module('milesCommandCenter.controllers', [])
 			
 			var userid = $('#' + id).parent('ul').attr('id')
 			
-			milesAPIservice.getUser(oldUserId).success(function (res) {
+			milesAPIservice.getUser(user).success(function (res) {
 	 				$scope.updateUserHours(res, userid)
 	 			});
 			
@@ -193,22 +204,19 @@ angular.module('milesCommandCenter.controllers', [])
 	
 	$scope.updateUserHours = function(res, newUserId){
 		var totalhours = 0;
-		for(i=0; i< res.tasks.length; i++){
-			if(res.tasks[i].working && !res.tasks[i].done && res.tasks[i].hours) {
-				totalhours += 	res.tasks[i].hours;
+		if(res.tasks){
+			for(i=0; i< res.tasks.length; i++){
+				if(res.tasks[i].working && !res.tasks[i].done && res.tasks[i].hours) {
+					totalhours += 	res.tasks[i].hours;
+				}
 			}
 		}
 
-		$http.post('/api/account/' + res._id,{hours: totalhours})
-		.success(function(user){			
-				milesAPIservice.getTeam().success(function (team) {	
-				$scope.socket.emit('send', { message: team, user: $scope.session, newuser: newUserId});	
-				});
-		})
+		return $http.post('/api/account/' + res._id,{hours: totalhours})
 	}
 	
-	
-	
+
+
 
 })
 
