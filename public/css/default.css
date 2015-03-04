@@ -32,7 +32,7 @@ Dashboard
 .header h1{color:#fff; font-weight:200; font-size:2em}
 .todo-queue{ background:#275482; margin:0; padding:10px; border-radius: 0 0 8px 8px; }
 .todo-queue li{list-style:none; color:#fff; font-weight:400; padding:10px; margin:5px 0; background:#3b6897; color:#fff; border-radius:6px; line-height:1em;  border-left:8px solid #3b6897; transition:border-left .2s ease;  }
-.todo-queue li.done{background:#275482; }
+.todo-queue li.done{background:#275482; color:#999}
 
 .todo-queue li span:nth-child(3){cursor:pointer;}
 .todo-queue li.ui-sortable-placeholder{background:#173b62; box-shadow:none;}
