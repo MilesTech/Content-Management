@@ -8,8 +8,8 @@
         </div>
          <div class="large-8 columns">
            <ul class="nav">
-          <li> Welcome, {{session.user_firstname}} {{session.user_lastname}}</li>
-          <li><a href="/account">Main Dashboard</a></li>
+         
+          <li><a href="/dashboard">Main Dashboard</a></li>
           <li><a href="/account">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
            </ul> 
@@ -36,21 +36,29 @@
 <div class="main-dashboard">
 
 <div class="row">
-<div class="large-4 columns working-tasks" >
-<h3>Tasks For the Week</h3>
-<ul class="todo-queue" id="working" sortable>
-<li class="queue-item" ng-repeat="task in user.tasks" ng-if="task.working" ng-class="{done: task.done}" id="{{task._id}}" ><input type="checkbox"  ng-click="doneTodo(task._id)" ng-checked="task.done" > {{ task.text }}</li>
-</ul>
+    <div class="large-4 columns working-tasks" >
+        <h3>Tasks For the Week</h3>
+        <ul class="todo-queue" id="working" sortable>
+            <li class="queue-item" ng-repeat="task in user.tasks" ng-if="task.working" ng-class="{done: task.done}" id="{{task._id}}" >
+            <span class="task-type">{{task.type}}</span>
+            <input type="checkbox"  ng-click="doneTodo(task._id)" ng-checked="task.done" > <span ng-click="showTask(task._id)">{{ task.text }}</span>
+            </li>
+        </ul>
+    </div>
+
+
+
+    <div class="large-8 columns">
+      	<div id="task-display" ng-show="display">  
+    <h2>{{display.text}} - (Budget {{display.hours}} Hours)</h2>
+    <h3>{{display.client}}</h3>
+    <p>{{display.notes}}</p>
+    
+    
+    	</div>
+    </div>
 
 </div>
-
-
-</div>
-
-
-
-
-
 
     </div>
 </div>

@@ -20,8 +20,14 @@
               </label>
             </div>
         </div>
+        <label>Client
+        <input type="text"  ng-model="todo.client"  />
+        </label>
         
-        <span>{{todo.type}}</span>
+        <select ng-model="todo.type"
+                data-ng-options="option for option in selectOptions">                
+        </select>
+        
         <br>
         <textarea ng-model="todo.notes">{{todo.notes}}</textarea>
         <input type="submit" value="Save" ng-click="saveTask(todo._id)" />

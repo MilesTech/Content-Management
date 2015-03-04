@@ -9,10 +9,9 @@ var ObjectId = mongoose.Schema.ObjectId;
 		working: Boolean,
 		type: String,
 		hours: Number,
-		done : Boolean
+		done : Boolean,
+		client: String
     });
 	
-	
-	
-	
+
 	module.exports = mongoose.model('Todo', Todo);

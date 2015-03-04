@@ -79,7 +79,7 @@ app.post('/login', passport.authenticate('local-login', {
     });
 	
 	
-	app.get('/api/users/:user_id', function(req, res) {
+	app.get('/api/users/:user_id', isLoggedIn, function(req, res) {
        User.findById(req.params.user_id)
 	   .populate('tasks')
 	   .exec(function(err, doc){
@@ -90,7 +90,7 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	
 	
-	 app.get('/api/todos', function(req, res) {
+	 app.get('/api/todos', isLoggedIn, function(req, res) {
 	 
         Todo.find({assigned : ""}, function(err, todos) {
             if (err){
@@ -125,7 +125,7 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	
 	
-	app.get('/api/account', function(req, res) {
+	app.get('/api/account', isLoggedIn, function(req, res) {
 	
        User.findById(req.session.passport.user)
 	   .populate('tasks')
@@ -148,30 +148,28 @@ app.post('/login', passport.authenticate('local-login', {
 
 	
 
-    app.post('/api/todos', function(req, res) {
+    app.post('/api/todos', isLoggedIn, function(req, res) {
         Todo.create({
             text : req.body.text,
 			notes : req.body.notes,
 			type : req.body.type,
 			hours : req.body.hours,
+			client : req.body.client,
 			assigned : "",
 			working : false,
             done : false
         }, function(err, todo) {
             if (err)
                 res.send(err);
-            Todo.find({assigned : ""},function(err, todos) {
-                if (err)
-                    res.send(err)
-                res.json(todos);
-            });
+                	res.json(todo);
+          
         });
 
     });
 
 
 
-   app.get('/api/todos/:todo_id', function(req, res) {
+   app.get('/api/todos/:todo_id', isLoggedIn, function(req, res) {
 		
 		Todo.findOne({_id: req.params.todo_id}, function(err, todo){
 			res.json(todo)
@@ -180,7 +178,7 @@ app.post('/login', passport.authenticate('local-login', {
     });
 
 
-    app.post('/api/todos/:todo_id', function(req, res) {
+    app.post('/api/todos/:todo_id', isLoggedIn, function(req, res) {
 		
 		if (req.body.pull){
 			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 

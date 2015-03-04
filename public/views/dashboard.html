@@ -9,7 +9,7 @@
          <div class="large-8 columns">
            <ul class="nav">
           <li> Welcome, {{session.user_firstname}} {{session.user_lastname}}</li>
-          <li><a href="/account">Main Dashboard</a></li>
+          <li><a href="/dashboard">Main Dashboard</a></li>
           <li><a href="/account">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
            </ul> 
@@ -50,6 +50,7 @@
            
         
         <input type="text" placeholder="Task Title" ng-model="formData.text" class="task-input">
+        <input type="text" placeholder="Client" ng-model="formData.client" class="task-input">
              
             <select class="task-input" ng-model="formData.type">
                    		<option value="" selected disabled>Task Type</option>
@@ -61,7 +62,8 @@
                    </select>
             <textarea ng-model="formData.notes" class="task-input" placeholder="Task Notes"></textarea>
 
-             <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>       
+		<button class="cancel" ng-click="closeCreate()">Cancel</button>
+             <button type="submit" class="btn btn-primary" ng-click="createTodo()">Add</button>       
 
                 </form>
                 

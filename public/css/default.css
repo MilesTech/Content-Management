@@ -3,7 +3,7 @@
 body{margin:0; padding:0; font-family: 'Roboto', sans-serif; background:#173b62; font-size:100%; }
 input, textarea, select{font-family: 'Roboto', sans-serif; font-weight:300; margin:10px 0;}
 .page{overflow:hidden;}
-input[type="text"], select{width:100%; padding:10px;  border-radius:5px; background:#ECEDEF; border:0;}
+input[type="text"], select, input[type="date"], input[type="number"], textarea {width:100%; padding:10px;  border-radius:5px; background:#ECEDEF; border:0;}
 
 form button{background:#129fdd; cursor:pointer; transition:all .2s ease;  text-align:center; text-decoration:none; color:#fff;  padding:15px 25px; border-radius:5px; border:none;  font-family: 'Roboto', sans-serif; display:block}
 
@@ -52,6 +52,7 @@ h2.queue{color:#fff;}
 .right-sidebar {background: #275482; position: absolute; height: 100%; width: 300px; z-index: 1000; right:0;
 }
 
+form button.cancel{float:left; background:#ccc; margin-right:30px;}
 
 #todo-form h2{color:#275482; text-align:center;}
 .add-todo {background: #fff; position: absolute; height: 100%; width: 400px; z-index: 1000; right:-400px; transition:all .4s ease; box-shadow:3px 3px 3px #333; padding:30px; }
@@ -108,14 +109,14 @@ User Dashboard
 .working-tasks .todo-queue{background:none;}
 .working-tasks .todo-queue li.done{color:#ccc; text-decoration:line-through; font-style:italic;}
 
-
-
-
+#task-display{background:#fff; padding:20px; border-radius:10px;  }
+#task-display  h2{color:#275482}
+#task-display p{color:#333}
 /*======================
 Task Screen Popup
 =======================*/
 .task-screen form{width:90%; margin:auto;}
-.task-screen input, .task-screen textarea{display:block; padding:5px; margin:10px 0; width:100%; font-size:1.1em;}
+
 .task-screen textarea{height:200px;}
 
 
