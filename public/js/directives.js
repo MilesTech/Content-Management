@@ -5,7 +5,7 @@ angular.module('milesCommandCenter.directives', [])
 return {
         restrict: "A",
         link: function(scope, element, attributes, ctlr) {
-		var oldid;	
+	var oldid;	
     element.sortable({
 	connectWith: ".todo-queue",
 	distance: 10,

@@ -5,7 +5,9 @@ input, textarea, select{font-family: 'Roboto', sans-serif; font-weight:300; marg
 .page{overflow:hidden;}
 input[type="text"], select, input[type="date"], input[type="number"], textarea {width:100%; padding:10px;  border-radius:5px; background:#ECEDEF; border:0;}
 
-form button{background:#129fdd; cursor:pointer; transition:all .2s ease;  text-align:center; text-decoration:none; color:#fff;  padding:15px 25px; border-radius:5px; border:none;  font-family: 'Roboto', sans-serif; display:block}
+form button{background:#129fdd; cursor:pointer; transition:all .2s ease;  text-align:center; text-decoration:none; color:#fff;  padding:15px 25px; border-radius:5px; border:none;  font-family: 'Roboto', sans-serif; }
+
+input.ng-dirty.ng-invalid{border:red 1px solid;}
 
 p{color:#fff;}
 /*======================

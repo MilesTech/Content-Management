@@ -46,13 +46,14 @@
    <div class="add-todo">
           <div id="todo-form" class="row">
           <h2>Add New Task</h2>
-                <form class="large-12 columns">
+                <form name="userForm" class="large-12 columns" ng-submit="createTodo(userForm.$valid)" novalidate>
            
         
-        <input type="text" placeholder="Task Title" ng-model="formData.text" class="task-input">
-        <input type="text" placeholder="Client" ng-model="formData.client" class="task-input">
+        <input type="text" placeholder="Task Title" ng-model="formData.text" class="task-input" required>
+       
+        <input type="text" placeholder="Client" ng-model="formData.client" class="task-input" required>
              
-            <select class="task-input" ng-model="formData.type">
+            <select class="task-input" ng-model="formData.type" required>
                    		<option value="" selected disabled>Task Type</option>
                        <option value="mockup">Mockup</option>
                        <option value="qa">QA</option>
@@ -63,7 +64,7 @@
             <textarea ng-model="formData.notes" class="task-input" placeholder="Task Notes"></textarea>
 
 		<button class="cancel" ng-click="closeCreate()">Cancel</button>
-             <button type="submit" class="btn btn-primary" ng-click="createTodo()">Add</button>       
+             <button type="submit" class="btn btn-primary" >Add</button>       
 
                 </form>
                 
