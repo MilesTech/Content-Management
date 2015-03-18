@@ -5,7 +5,7 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 'ngRoute',
 'ngAnimate',
 'ngDialog',
-'textAngular'
+'ngSanitize'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider',  function($routeProvider, $locationProvider, $httpProvider) {
 	
@@ -90,6 +90,13 @@ var milesCommandCenter = angular.module('milesCommandCenter', [
 	   .when("/account", {
 	  templateUrl: "/views/account.html", 
 	  controller: "accountController",
+	  resolve: {
+          loggedin: checkLoggedin
+        }
+	  })
+	     .when("/tasks", {
+	  templateUrl: "/views/tasksqueue.html", 
+	  controller: "taskQueueController",
 	  resolve: {
           loggedin: checkLoggedin
         }

@@ -92,12 +92,22 @@ app.post('/login', passport.authenticate('local-login', {
 	
 	 app.get('/api/todos', isLoggedIn, function(req, res) {
 	 
-        Todo.find({assigned : ""}, function(err, todos) {
+	 Todo.find()
+	 .populate('assigned')
+	 .exec(function(err, todos){
+		  if (err){
+			  console.log(err)
+                res.send(err)
+			}
+		res.json(todos)
+	 });
+	 
+       /* Todo.find({}, function(err, todos) {
             if (err){
                 res.send(err)
 			}
             res.json(todos);
-        });
+        });*/
 		
     });
 
@@ -155,7 +165,6 @@ app.post('/login', passport.authenticate('local-login', {
 			type : req.body.type,
 			hours : req.body.hours,
 			client : req.body.client,
-			assigned : "",
 			working : false,
             done : false
         }, function(err, todo) {
@@ -180,7 +189,7 @@ app.post('/login', passport.authenticate('local-login', {
 
     app.post('/api/todos/:todo_id', isLoggedIn, function(req, res) {
 		
-		if (req.body.pull){
+		if (req.body.pull && req.body.assigned){
 			User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
 			function(err,  user){
 				Todo.update({_id: req.params.todo_id},
@@ -188,6 +197,15 @@ app.post('/login', passport.authenticate('local-login', {
 				})
 			return;
 		} 
+			
+			if (req.body.assigned == false){
+				User.update({tasks: req.params.todo_id}, {$pull: {tasks: req.params.todo_id}}, 
+			function(err,  user){
+				Todo.update({_id: req.params.todo_id},
+			 { $unset : {assigned: "" } }, function(err, doc){ res.send(200)})
+				})
+			return;
+			}
 			
 
 			Todo.findByIdAndUpdate(req.params.todo_id,

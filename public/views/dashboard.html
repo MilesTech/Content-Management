@@ -26,7 +26,7 @@
             <ul sortable class="todo-queue">
                      
                 
-                  <li ng-class="{done: todo.done}" class="queue-item" ng-repeat="todo in todos" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
+                  <li ng-class="{done: todo.done}" class="queue-item" ng-repeat="todo in todos | filter: {assigned: '!'}" id="{{todo._id}}" ng-mouseenter="addOptions(todo)" ng-mouseleave="addOptions(todo)" >
                         <span class="task-type">{{todo.type}}</span>
                         <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
                             <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 

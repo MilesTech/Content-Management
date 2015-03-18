@@ -53,11 +53,6 @@ milesAPI.getUserAccount = function() {
       });
 	};
 	
-		
-	
-
-	
-
     return milesAPI;
   });
   

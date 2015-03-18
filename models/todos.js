@@ -5,7 +5,7 @@ var ObjectId = mongoose.Schema.ObjectId;
         text : String,
 		notes: String,
 		due: Date,
-		assigned: String,
+		assigned: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 		working: Boolean,
 		type: String,
 		hours: Number,

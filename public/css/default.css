@@ -114,10 +114,11 @@ User Dashboard
 #task-display{background:#fff; padding:20px; border-radius:10px;  }
 #task-display  h2{color:#275482}
 #task-display p{color:#333}
+
 /*======================
 Task Screen Popup
 =======================*/
-.task-screen form{width:90%; margin:auto;}
+.task-screen form{width:96%; margin:auto;}
 
 .task-screen textarea{height:200px;}
 
@@ -174,12 +175,20 @@ Page Animations
 	to 		{ -webkit-transform: translateX(0px); }
 }
 
+@keyframes opacityUp {
+	from 		{ -webkit-transform: translateX(100%); }
+	to 		{ -webkit-transform: translateX(0px); }
+}
+
 @-webkit-keyframes opacitydown {
 	from 		{ -webkit-transform: translateX(0px); }
 	to 		{ -webkit-transform: translateX(-100%); }
 }
 
-
+@keyframes opacitydown {
+	from 		{ -webkit-transform: translateX(0px); }
+	to 		{ -webkit-transform: translateX(-100%); }
+}
 
 /* scale up */
 @-webkit-keyframes slideDown {
@@ -192,6 +201,18 @@ Page Animations
 	to 		{ -webkit-transform: translateY(-100%); }
 }
 
+/* scale up */
+@-keyframes slideDown {
+	from 		{ -webkit-transform: translateY(-100%); }
+	to 		{ -webkit-transform: translateY(0px); }
+}
+
+@-keyframes slideUp {
+	from 		{ -webkit-transform: translateY(0px); }
+	to 		{ -webkit-transform: translateY(-100%); }
+}
+
+
 
 @-webkit-keyframes slidein {
 	0%{margin-right:-300px;}
@@ -201,6 +222,18 @@ Page Animations
 }
 
 @-webkit-keyframes slideout {
+	0% {margin-right:0px;}
+	100% {margin-right:-300px;}
+}
+
+@keyframes slidein {
+	0%{margin-right:-300px;}
+	70%{margin-right:-300px;}		
+  100% {margin-right:0px;}
+
+}
+
+@keyframes slideout {
 	0% {margin-right:0px;}
 	100% {margin-right:-300px;}
 }
@@ -217,7 +250,7 @@ Page Animations
   }
 }
 
-@keyframes ngdialog-fadeout {
+@-webkit-keyframes ngdialog-fadeout {
   0% {
     opacity: 1;
   }
@@ -237,7 +270,7 @@ Page Animations
   }
 }
 
-@keyframes ngdialog-fadein {
+@-webkit-keyframes ngdialog-fadein {
   0% {
     opacity: 0;
   }

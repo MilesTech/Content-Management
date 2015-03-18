@@ -42,6 +42,7 @@
             <li class="queue-item" ng-repeat="task in user.tasks | filter: {working: true}"  ng-class="{done: task.done}" id="{{task._id}}" >
             <span class="task-type">{{task.type}}</span>
             <input type="checkbox"  ng-click="doneTodo(task._id)" ng-checked="task.done" > <span ng-click="showTask(task._id)">{{ task.text }}</span>
+            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM-dd-yyyy'}}</span>
             </li>
         </ul>
     </div>
@@ -53,7 +54,7 @@
     <h2>{{display.text}} - (Budget {{display.hours}} Hours)</h2>
     <h3>{{display.client}}</h3>
     <p><em>Due Date - {{display.due | date:'MM-dd-yyyy'}}</em></p>
-    <p>{{display.notes}}</p>
+    <div ng-bind-html="display.notes"></div>
     
     
     	</div>

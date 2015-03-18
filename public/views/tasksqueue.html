@@ -1,0 +1,47 @@
+<div class="header">
+  <div class="row">
+        <div class="large-4 columns">
+           <h1>{{ user.firstname }}'s Workload</h1>
+        </div>
+         <div class="large-8 columns">
+           <ul class="nav">
+         
+          <li><a href="/dashboard">Main Dashboard</a></li>
+          <li><a href="/account">My Account</a></li>
+          <li><a href="/logout">Logout</a></li>
+           </ul> 
+        </div>
+        </div>
+</div>
+
+
+
+
+<div class="row">
+
+<div class="large-12 columns">
+
+<table width="100%">
+<thead align="left">
+<th><h2>Task Name</h2></th>
+<th><h2>Client</h2></th>
+<th><h2>Hours</h2></th>
+<th><h2>Due Date</h2></th>
+</thead>
+<tr ng-repeat="task in tasks">
+<td><p>{{task.text}}</p></td>
+<td><p>{{task.client}}</p></td>
+<td><p>{{task.hours}}</p></td>
+<td><p>{{task.due | date:'MM-dd-yyyy'}}</p></td>
+</tr> 
+
+
+
+</table>
+
+
+
+</div>
+
+
+</div>

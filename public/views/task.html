@@ -31,7 +31,7 @@
         
         <br>
         
-        <div text-angular ng-model="todo.notes"></div>
+      <textarea ui-tinymce ng-model="todo.notes"></textarea>
        <!-- <textarea ng-model="todo.notes">{{todo.notes}}</textarea>-->
         <input type="submit" value="Save" ng-click="saveTask(todo._id)" />
     </form>
