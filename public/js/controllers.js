@@ -30,7 +30,7 @@ angular.module('milesCommandCenter.controllers', [])
 .controller('dashboardController', function($scope, $http, milesAPIservice, $animate, ngDialog) {
 	$scope.pageClass = 'page-dashboard';
     $scope.formData = {};
-	$scope.socket = io.connect('http://localhost:3000');
+	$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/');
 	
 	
 	$animate.enabled(false, $('.todo-queue'));
@@ -269,7 +269,7 @@ angular.module('milesCommandCenter.controllers', [])
 	 });
 	 
 //Setup Socket IO	
-$scope.socket = io.connect('http://localhost:3000'); 
+$scope.socket = io.connect('https://agile-retreat-8183.herokuapp.com/'); 
 
 
 	$scope.socket.on('message', function (data) {
@@ -536,6 +536,12 @@ $scope.selectOptions = ["mockup", "qa", "development", "maintenance", "content"]
 	 
 	 
 	 $scope.saveTask = function(id){
+		 
+		 var nowUtc = new Date($scope.todo.due.getUTCFullYear(), $scope.todo.due.getUTCMonth(), $scope.todo.due.getUTCDate(),  $scope.todo.due.getUTCHours(), $scope.todo.due.getUTCMinutes(), $scope.todo.due.getUTCSeconds());
+	
+    $scope.todo.due = nowUtc;
+
+		 
 		$http.post('/api/todos/' + id, $scope.todo).success(function(err, data){
 		
 		milesAPIservice.getUser($scope.todo.assigned).success(function(user){

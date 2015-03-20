@@ -40,7 +40,7 @@ return {
                     return dateFilter(modelValue, 'yyyy-MM-dd');
                 });
 
-                ngModelCtrl.$parsers.unshift(function(viewValue) {
+                ngModelCtrl.$parsers.unshift(function(viewValue) {					
                     return new Date(viewValue);
                 });
             },

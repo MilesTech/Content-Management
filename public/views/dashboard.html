@@ -30,7 +30,7 @@
                         <span class="task-type">{{todo.type}}</span>
                         <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
                             <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 
-                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM-dd-yyyy'}}</span>
+                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM/dd/yyyy'}}</span>
                             
                         </li>   
                 
@@ -92,7 +92,7 @@
                         <span class="task-type">{{todo.type}}</span>
                         <span class='delete' ng-show='todo.showDelete'><a href='#' ng-click='deleteTodo(todo._id)'>x</a></span>
                             <span ng-click="clickToOpen(todo._id)" >{{ todo.text }}</span> 
-                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM-dd-yyyy'}}</span>
+                            <span class="due-date"  ng-show="todo.due">{{todo.due | date:'MM/dd/yyyy' : 'UTC'}}</span>
                             
                         </li>                         
                     </ul>
