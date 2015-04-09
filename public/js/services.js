@@ -54,6 +54,34 @@ milesAPI.getUserAccount = function() {
 	};
 	
     return milesAPI;
+  })
+  
+  
+  .factory('loggedIn', function($http){
+	  
+	  var isLoggedIn = {}
+	  
+	  
+ isLoggedIn.checkLogin = function(){
+	
+	var promise = $http({
+		method: 'Get', 
+        url: '/api/account/'
+      }).success( function(user){
+		 if(user.firstname){	
+		 
+		 $('.nav').html('<li><a href="/dashboard">Main Dashboard</a></li><li><a href="/account">My Account</a></li> <li><a href="/logout">Logout</a></li>')		
+			return user;
+		 } else {
+			$('.nav').html('<li><a href="/login" class="home-btn">Login</a></li>')	
+		 }
+		 
+	  });
+	  return promise;
+	 	  
+}
+	 
+	 return isLoggedIn; 
   });
   
   
